@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $ahora = date("Y-m-d H:i:s");
 
-    if (strtotime($fechaInicio) < strtotime($ahora)) {
+    if (strtotime($fechaInicio) <= strtotime($ahora)) {
         $mensaje = "No puedes hacer reservas en fechas u horas pasadas.";
         $error = true;
     } elseif (strtotime($fechaFin) <= strtotime($fechaInicio)) {

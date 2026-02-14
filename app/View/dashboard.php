@@ -86,7 +86,7 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
       <li><a href="#" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/pagina-de-inicio.png" class="w-6 h-6"><span>Inicio</span></a></li>
       <li><a href="misReservas.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/cita.png" class="w-6 h-6"><span>Mis Reservas</span></a></li>
       <li><a href="talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/ordenadores.png" class="w-6 h-6"><span>Talleres</span></a></li>
-      <li><a href="#" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/usuario.png" class="w-6 h-6"><span>Mi perfil</span></a></li>
+      <li><a href="perfil.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/usuario.png" class="w-6 h-6"><span>Mi perfil</span></a></li>
       <li><a href="/sys_Taller_Computo/public/api/logout.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-red-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/logout.png" class="w-6 h-6"><span>Cerrar sesión</span></a></li>
     </ul>
   </nav>
