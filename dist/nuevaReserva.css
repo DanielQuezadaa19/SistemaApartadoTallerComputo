@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+body {
+  @apply font-sans p-5 bg-gray-100;
+}
+
+h1{
+    @apply text-blue-600 font-bold text-2xl border-b-2 border-gray-200 p-2 text-center;
+  
+}
+
+form {
+  @apply max-w-md mx-auto bg-white p-5 rounded-lg flex flex-col gap-4 mt-5;
+}
+
+label {
+  @apply font-bold;
+}
+
+select,
+input,
+button {
+  @apply p-2 text-base rounded border border-gray-300;
+}
+
+button {
+  @apply bg-blue-500 text-white border-none cursor-pointer hover:bg-blue-600;
+}
+
+.mensaje {
+  @apply text-center mb-5 p-2 rounded;
+}
+
+.error {
+  @apply bg-red-100 text-red-700;
+}
+
+.success {
+  @apply bg-green-100 text-green-700;
+}
