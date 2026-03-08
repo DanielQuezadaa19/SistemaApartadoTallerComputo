@@ -1,16 +1,23 @@
 <?php
-require_once __DIR__ . "/../../db/Database.php";
 session_start();
+
+require_once __DIR__ . "/../../db/Database.php";
+
+$pdo = Database::connect();
 
 if(!isset($_SESSION["idDocente"])){
     header("Location: /sys_Taller_Computo/public/api/login.php");
     exit;
 }
 
-$pdo = Database::connect();
+
 
 $queryTalleres = $pdo->query("
-    SELECT t.idTaller, t.nombreSala, t.cantidadComputadoras,
+    SELECT 
+        t.idTaller, 
+        t.nombreSala, 
+        t.totalComputadoras,
+        t.computadorasFuncionando,
     CASE 
         WHEN EXISTS (
             SELECT 1 FROM registroTaller r
@@ -32,22 +39,23 @@ $queryTalleres = $pdo->query("
     END AS estado
     FROM tallercomputo t
 ");
+
 $talleres = $queryTalleres->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Talleres</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-200">
 
 <header class="bg-white shadow-lg flex justify-between items-center px-6 w-full">
     <h1 class="text-blue-600 border-b p-5 text-3xl font-bold">
-        Talleres de cómputo
+        Talleres de Cómputo
     </h1>
 
     <select id="filtroEstado" class="border rounded p-2 shadow-lg">
@@ -61,6 +69,14 @@ $talleres = $queryTalleres->fetchAll(PDO::FETCH_ASSOC);
 <main class="p-6">
     <div class="flex flex-wrap justify-center gap-6">
         <?php foreach ($talleres as $t): ?>
+            
+            <?php 
+                $noFuncionando = $t['totalComputadoras'] - $t['computadorasFuncionando'];
+                $porcentaje = $t['totalComputadoras'] > 0 
+                    ? ($t['computadorasFuncionando'] / $t['totalComputadoras']) * 100 
+                    : 0;
+            ?>
+
             <section 
                 class="card 
                        w-full 
@@ -68,24 +84,55 @@ $talleres = $queryTalleres->fetchAll(PDO::FETCH_ASSOC);
                        md:w-[31%] 
                        lg:w-[23%] 
                        xl:w-[19%] 
-                       bg-white rounded-xl shadow-md p-5 space-y-2 hover:shadow-xl transition"
+                       bg-white rounded-xl shadow-md p-5 space-y-3 hover:shadow-xl transition"
                 data-estado="<?= $t['estado'] ?>">
                 
                 <h2 class="text-xl font-semibold text-gray-800 text-center tracking-wide">
                     <?= htmlspecialchars($t['nombreSala']) ?>
                 </h2>
 
-                <div class="text-sm text-gray-600">
-                    <span class="font-medium text-gray-700">ID Taller:</span>
+                <div class="text-sm text-gray-600 text-center">
+                    <span class="font-medium">ID:</span>
                     <?= $t['idTaller'] ?>
                 </div>
 
-                <div class="text-sm text-gray-600">
-                    <span class="font-medium text-gray-700">Computadoras:</span>
-                    <?= $t['cantidadComputadoras'] ?>
+                
+                <div class="space-y-1 text-sm">
+
+                    <div>
+                        <span class="font-medium text-gray-700">Total:</span>
+                        <span class="font-semibold text-blue-600">
+                            <?= $t['totalComputadoras'] ?>
+                        </span>
+                    </div>
+
+                    <div>
+                        <span class="font-medium text-gray-700">Funcionando:</span>
+                        <span class="font-semibold text-green-600">
+                            <?= $t['computadorasFuncionando'] ?>
+                        </span>
+                    </div>
+
+                    <div>
+                        <span class="font-medium text-gray-700">No funcionando:</span>
+                        <span class="font-semibold text-red-600">
+                            <?= $noFuncionando ?>
+                        </span>
+                    </div>
+
                 </div>
 
-                <div class="text-sm">
+              
+                <div class="w-full bg-gray-300 rounded-full h-3 mt-2">
+                    <div 
+                        class="bg-blue-500 h-3 rounded-full transition-all duration-500"
+                        style="width: <?= $porcentaje ?>%">
+
+                    </div>
+                </div>
+
+          
+                <div class="text-sm text-center mt-2">
                     <span class="font-medium text-gray-700">Estado:</span>
                     <span class="font-semibold
                         <?= $t['estado'] === 'Libre' ? 'text-green-500' : '' ?>
@@ -96,6 +143,7 @@ $talleres = $queryTalleres->fetchAll(PDO::FETCH_ASSOC);
                 </div>
 
             </section>
+
         <?php endforeach; ?>
     </div>
 </main>

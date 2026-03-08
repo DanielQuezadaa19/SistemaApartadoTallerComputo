@@ -1,13 +1,16 @@
 <?php
-require_once __DIR__ . "/../../db/Database.php";
 session_start();
+
+require_once __DIR__ . "/../../../db/Database.php";
+
+$pdo = Database::connect();
 
 if (!isset($_SESSION["idDocente"])) {
     header("Location: /sys_Taller_Computo/public/api/login.php");
     exit;
 }
 
-$pdo = Database::connect();
+
 
 $idDocente     = $_SESSION["idDocente"];
 $nombreDocente = $_SESSION["nombre"];
@@ -44,7 +47,7 @@ SELECT
     rt.estado
 FROM registroTaller rt
 INNER JOIN tallerComputo tc ON tc.idTaller = rt.idTaller
-INNER JOIN Docente d ON d.idDocente = rt.docenteAparto
+INNER JOIN usuarios d ON d.idDocente = rt.docenteAparto
 WHERE rt.docenteAparto = ?
 ORDER BY rt.fechaInicio DESC
 ";

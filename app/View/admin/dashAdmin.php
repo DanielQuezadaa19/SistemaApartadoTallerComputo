@@ -1,6 +1,10 @@
 <?php
+
 session_start();
-require_once __DIR__ . "/../../db/Database.php";
+
+require_once __DIR__ . "/../../../db/Database.php";
+
+$pdo = Database::connect();
 
 if (!isset($_SESSION["idDocente"])) {
     header("Location: /sys_Taller_Computo/public/api/login.php");
@@ -9,7 +13,7 @@ if (!isset($_SESSION["idDocente"])) {
 
 date_default_timezone_set('America/Monterrey');
 
-$pdo = Database::connect();
+
 
 /* Finalizar reservas vencidas */
 $pdo->query("
@@ -19,7 +23,7 @@ $pdo->query("
       AND fechaFin <= NOW()
 ");
 
-/* Estadísticas de salas (tiempo real) */
+
 $stats = $pdo->query("
 SELECT 
     COUNT(*) AS totalTalleres,
@@ -42,12 +46,12 @@ FROM tallerComputo t
 $totalTalleres = (int)$stats['totalTalleres'];
 $totalTalleresLibres = (int)$stats['libres'];
 
-/* Totales de reservas */
+
 $totalReservas = (int)$pdo->query("SELECT COUNT(*) FROM registroTaller")->fetchColumn();
 $totalEnProceso = (int)$pdo->query("SELECT COUNT(*) FROM registroTaller WHERE estado = 'En proceso'")->fetchColumn();
 $totalFinalizadas = (int)$pdo->query("SELECT COUNT(*) FROM registroTaller WHERE estado = 'Finalizado'")->fetchColumn();
 
-/* Listado de reservas */
+
 $sql = "
 SELECT 
     rt.idRegistro,
@@ -59,7 +63,7 @@ SELECT
     rt.estado
 FROM registroTaller rt
 INNER JOIN tallerComputo tc ON tc.idTaller = rt.idTaller
-INNER JOIN Docente d ON d.idDocente = rt.docenteAparto
+INNER JOIN Usuarios d ON d.idDocente = rt.docenteAparto
 ORDER BY rt.fechaInicio DESC
 ";
 
@@ -83,12 +87,72 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
   </div>
   <nav class="flex-1 mt-4">
     <ul class="space-y-2">
-      <li><a href="#" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/pagina-de-inicio.png" class="w-6 h-6"><span>Inicio</span></a></li>
-      <li><a href="misReservas.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/cita.png" class="w-6 h-6"><span>Mis Reservas</span></a></li>
-      <li><a href="talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/ordenadores.png" class="w-6 h-6"><span>Talleres</span></a></li>
-      <li><a href="perfil.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/usuario.png" class="w-6 h-6"><span>Mi perfil</span></a></li>
-      <li><a href="/sys_Taller_Computo/public/api/logout.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-red-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/logout.png" class="w-6 h-6"><span>Cerrar sesión</span></a></li>
-    </ul>
+  <li>
+    <a href="#" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
+      <img src="/sys_Taller_Computo/img/pagina-de-inicio.png" class="w-6 h-6">
+      <span>Inicio</span>
+    </a>
+  </li>
+
+  <p class="bg-gray-100 text-left font-semibold text-gray-700 mt-3 mb-3">Gestión</p>
+  <li>
+    <a href="../talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
+      <img src="/sys_Taller_Computo/img/administrar.png" class="w-6 h-6">
+      <span>Usuarios</span>
+    </a>
+  </li>
+
+  <li>
+    <a href="../talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
+      <img src="/sys_Taller_Computo/img/virtual.png" class="w-6 h-6">
+      <span>Taller</span>
+    </a>
+  </li>
+
+  <li>
+    <a href="../talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
+      <img src="/sys_Taller_Computo/img/gestion-de-datos.png" class="w-6 h-6">
+      <span>Computadoras</span>
+    </a>
+  </li>
+
+  <p class="bg-gray-100 text-left font-semibold text-gray-700 mt-3 mb-3">General</p>
+  <li>
+    <a href="../talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
+      <img src="/sys_Taller_Computo/img/ordenadores.png" class="w-6 h-6">
+      <span>Talleres</span>
+    </a>
+  </li>
+
+  <li>
+    <a href="../docente/generarReporte.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition">
+      <img src="/sys_Taller_Computo/img/oficina.png" class="w-6 h-6">
+      <span>Generar reporte</span>
+    </a>
+  </li>
+
+
+  <li>
+    <a href="../docente/misReportes.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition">
+      <img src="/sys_Taller_Computo/img/misReportes.png" class="w-6 h-6">
+      <span>Reportes</span>
+    </a>
+  </li>
+
+ <li>
+    <a href="perfilAdmin.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
+      <img src="/sys_Taller_Computo/img/usuario.png" class="w-6 h-6">
+      <span>Mi perfil</span>
+    </a>
+  </li>
+
+  <li>
+    <a href="/sys_Taller_Computo/public/api/logout.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-red-50 rounded-lg transition">
+      <img src="/sys_Taller_Computo/img/logout.png" class="w-6 h-6">
+      <span>Cerrar sesión</span>
+    </a>
+  </li>
+</ul>
   </nav>
 </aside>
 
