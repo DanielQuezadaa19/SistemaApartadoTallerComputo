@@ -15,13 +15,13 @@ date_default_timezone_set('America/Monterrey');
 
 
 
-/* Finalizar reservas vencidas */
 $pdo->query("
     UPDATE registroTaller
     SET estado = 'Finalizado'
     WHERE estado = 'En proceso'
       AND fechaFin <= NOW()
 ");
+
 
 
 $stats = $pdo->query("
@@ -94,13 +94,21 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     </a>
   </li>
 
-  <p class="bg-gray-100 text-left font-semibold text-gray-700 mt-3 mb-3">Gestión</p>
+  <p class="bg-gray-50 text-left font-semibold text-gray-700 mt-3 mb-3 ml-3">Gestión</p>
   <li>
-    <a href="../talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
+    <a href="usuarios.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
       <img src="/sys_Taller_Computo/img/administrar.png" class="w-6 h-6">
       <span>Usuarios</span>
     </a>
   </li>
+
+  <li>
+    <a href="carreras.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
+      <img src="/sys_Taller_Computo/img/libros.png" class="w-6 h-6">
+      <span>Carreras</span>
+    </a>
+  </li>
+
 
   <li>
     <a href="../talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
@@ -116,7 +124,7 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     </a>
   </li>
 
-  <p class="bg-gray-100 text-left font-semibold text-gray-700 mt-3 mb-3">General</p>
+  <p class="bg-gray-50 text-left font-semibold text-gray-700 mt-3 mb-3 ml-3">General</p>
   <li>
     <a href="../talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
       <img src="/sys_Taller_Computo/img/ordenadores.png" class="w-6 h-6">
@@ -200,8 +208,8 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="flex-1 bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
       <div class="flex items-center gap-4 mb-4">
-        <img src="/sys_Taller_Computo/img/mas.png" class="w-12 h-12">
-        <h2 class="text-2xl font-semibold">Nueva Reserva</h2>
+        <img src="/sys_Taller_Computo/img/usuario2.png" class="w-12 h-12">
+        <h2 class="text-2xl font-semibold">Usuarios</h2>
       </div>
       <a href="registrarReserva.php" class="mt-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-center transition">Nueva reserva</a>
     </div>
