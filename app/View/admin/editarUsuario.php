@@ -40,7 +40,7 @@ $carreras = $pdo->query("SELECT * FROM carrera")->fetchAll(PDO::FETCH_ASSOC);
 <body class="flex flex-col justify-center items-center font-sans p-5 bg-gray-100">
 
 <h1 class="text-blue-600 font-bold text-2xl border-b-2 border-gray-200 p-2 text-center w-full">
-    Editarr usuario
+    Editar usuario
 </h1>
 
 <?php if ($mensaje): ?>

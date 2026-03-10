@@ -9,16 +9,16 @@ if (!isset($_SESSION["idDocente"])) {
 
 $pdo = Database::connect();
 
-if (isset($_GET["id"])) {
+if(isset($_GET["idTaller"])){
+    $id = $_GET["idTaller"];
 
-    $id = $_GET["id"];
+    $sql = "DELETE FROM tallercomputo WHERE idTaller = ?";
 
-    $sql = "DELETE FROM usuarios WHERE idDocente = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
 }
 
-header("Location: /sys_Taller_Computo/app/View/admin/usuarios.php");
+header("Location: /sys_Taller_Computo/app/View/admin/talleresAdmin.php");
 exit;
 
 ?>

@@ -122,15 +122,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <div class="right-panel">
 
-            <h2 class="title" id="whiteText">Administrador</h2>
+            <h2 class="title" id="whiteText">¿No estás registrado?</h2>
 
         <p id="white-text">
-                Inicia sesión como administrador para obtener más funcionalidades.
+                Contacta a tu institucion o administrador para obtener permisos.
         </p>
 
-        <button type="button" class="btn-register">
-            Ingresar datos
-        </button>
+   
 
         </div>
 

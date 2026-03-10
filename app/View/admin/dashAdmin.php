@@ -111,14 +111,14 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
 
   <li>
-    <a href="../talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
+    <a href="talleresAdmin.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
       <img src="/sys_Taller_Computo/img/virtual.png" class="w-6 h-6">
       <span>Taller</span>
     </a>
   </li>
 
   <li>
-    <a href="../talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
+    <a href="computadoras.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
       <img src="/sys_Taller_Computo/img/gestion-de-datos.png" class="w-6 h-6">
       <span>Computadoras</span>
     </a>
@@ -126,7 +126,7 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
   <p class="bg-gray-50 text-left font-semibold text-gray-700 mt-3 mb-3 ml-3">General</p>
   <li>
-    <a href="../talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
+    <a href="/sys_Taller_Computo/app/View/talleres.php"" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
       <img src="/sys_Taller_Computo/img/ordenadores.png" class="w-6 h-6">
       <span>Talleres</span>
     </a>
@@ -186,7 +186,12 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
           <p class="text-4xl font-bold text-green-500"><?= $totalTalleresLibres ?></p>
           <span>Libres</span>
         </div>
+        
       </div>
+      <div class="flex justify-center">
+          <a href="usuarios.php" class="mt-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-center transition p-3">Ver usuarios</a>
+     </div>
+        
     </div>
 
     <div class="flex-1 bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
@@ -210,8 +215,10 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
       <div class="flex items-center gap-4 mb-4">
         <img src="/sys_Taller_Computo/img/usuario2.png" class="w-12 h-12">
         <h2 class="text-2xl font-semibold">Usuarios</h2>
+        
       </div>
-      <a href="registrarReserva.php" class="mt-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-center transition">Nueva reserva</a>
+      <p class="font-medium text-gray-500 mb-4">Mantén el control completo del sistema.</p>
+      <a href="usuarios.php" class="mt-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-center transition">Ver usuarios</a>
     </div>
 
   </div>

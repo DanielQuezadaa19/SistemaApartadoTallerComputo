@@ -20,3 +20,4 @@ $stmt->execute([$nombre,$apellidoP,$apellidoM,$correo,$rol,$carrera,$id]);
 
 header("Location: /sys_Taller_Computo/app/View/admin/usuarios.php");
 exit;
+?>

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once __DIR__ . "/../../db/Database.php";
+require_once __DIR__ . "/../../../db/Database.php";
 
 $pdo = Database::connect();
 
@@ -58,6 +58,7 @@ $talleres = $queryTalleres->fetchAll(PDO::FETCH_ASSOC);
         Talleres de Cómputo
     </h1>
 
+    
     <select id="filtroEstado" class="border rounded p-2 shadow-lg">
         <option value="todos">Todos</option>
         <option value="Libre">Libre</option>
@@ -67,6 +68,9 @@ $talleres = $queryTalleres->fetchAll(PDO::FETCH_ASSOC);
 </header>
 
 <main class="p-6">
+    <div class="flex justify-end mr-6 mb-6">
+        <a href="agregarTaller.php" class="bg-blue-500 hover:bg-blue-700 text-center font-semibold text-white rounded-lg shadow p-2">Nuevo taller</a>
+    </div>
     <div class="flex flex-wrap justify-center gap-6">
         <?php foreach ($talleres as $t): ?>
             
@@ -140,6 +144,11 @@ $talleres = $queryTalleres->fetchAll(PDO::FETCH_ASSOC);
                         <?= $t['estado'] === 'No disponible' ? 'text-red-500' : '' ?>">
                         <?= $t['estado'] ?>
                     </span>
+                </div>
+
+                <div class="flex justify-evenly p-3 border-t border-gray-300">
+                    <a href="editarTaller.php?idTaller=<?= $t['idTaller'] ?>" class="bg-yellow-400 p-2 font-semibold text-center  rounded-lg m-2 shadow text-white">Editar</a>
+                    <a href="/sys_Taller_Computo/public/api/eliminarTaller.php?idTaller=<?= $t['idTaller'] ?>" class="bg-red-600 p-2 font-semibold text-center  rounded-lg m-2 shadow text-white">Eliminar</a>
                 </div>
 
             </section>

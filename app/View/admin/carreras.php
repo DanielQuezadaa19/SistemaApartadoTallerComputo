@@ -73,11 +73,11 @@ $totCarreras = $queryCarreras->fetch(PDO::FETCH_ASSOC);
              <td class="px-4 py-3 text-center"><?= $c["nombreCarrera"] ?></td>
 
             <td class="px-4 py-3 text-center">
-                <a href="editarCarrera.php?id=<?= $c['idCarrera'] ?>" class="bg-yellow-300 p-2 font-semibold text-center  rounded-lg m-2 shadow text-white" >Editar</a>
+                <a href="editarCarrera.php?id=<?= $c['idCarrera'] ?>" class="bg-yellow-400 p-2 font-semibold text-center  rounded-lg m-2 shadow text-white" >Editar</a>
             </td>
            
             <td class="px-4 py-3 text-center">
-                <a href="/sys_Taller_Computo/public/api/eliminarCarrera.php?id=<?= $c['idCarrera'] ?>" class="bg-red-500 p-2 font-semibold text-center shadow rounded-lg m-2 text-white" >Eliminar</a>
+                <a href="/sys_Taller_Computo/public/api/eliminarCarrera.php?id=<?= $c['idCarrera'] ?>" class="bg-red-600 p-2 font-semibold text-center shadow rounded-lg m-2 text-white" >Eliminar</a>
             </td>
             
           </tr>

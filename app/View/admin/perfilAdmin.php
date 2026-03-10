@@ -121,87 +121,89 @@ $reservasTotales = $queryReservasTotales->fetch(PDO::FETCH_ASSOC);
    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
   
-    <div class="bg-white border border-green-200 rounded-xl shadow hover:shadow-lg transition p-6 flex flex-col justify-between h-full">
+    <div class="bg-white border  rounded-xl shadow hover:shadow-lg transition p-6 flex flex-col justify-between h-full">
         
         <div>
-            <h2 class="text-lg font-semibold text-green-700 mb-4 text-center">Agregar usuario</h2>
+            <h2 class="text-lg font-semibold text-green-700 mb-4 text-center">Usuarios</h2>
 
             <ul class="text-sm text-gray-600 space-y-1 mb-6 list-disc list-inside text-left">
-                <li>Docente</li>
-                <li>Alumno</li>
-                <li>Administrador</li>
-                <li>Técnico</li>
+                <li>Añadir</li>
+                <li>Editar</li>
+                <li>Eliminar</li>
+                <li>Visualizar</li>
             </ul>
         </div>
 
         <a href="nuevoUsuario.php"
            class="bg-green-600 text-white py-2 rounded-lg text-center hover:bg-green-700 transition">
-            + Crear usuario
+            Ver
         </a>
     </div>
 
 
   
-    <div class="bg-white border border-yellow-200 rounded-xl shadow hover:shadow-lg transition p-6 flex flex-col justify-between h-full">
+    <div class="bg-white border rounded-xl shadow hover:shadow-lg transition p-6 flex flex-col justify-between h-full">
         
         <div>
-            <h2 class="text-lg font-semibold text-yellow-700 mb-4 text-center">Editar usuario</h2>
+            <h2 class="text-lg font-semibold text-yellow-700 mb-4 text-center">Computadoras</h2>
 
             <ul class="text-sm text-gray-600 space-y-1 mb-6 list-disc list-inside text-left">
-                <li>Modificar datos</li>
-                <li>Cambiar rol</li>
-                <li>Actualizar correo</li>
-                <li>Actualizar información</li>
+                <li>Añadir</li>
+                <li>Editar</li>
+                <li>Eliminar</li>
+                <li>Visualizar</li>
             </ul>
         </div>
 
         <a href="editarUsuario.php"
            class="bg-yellow-500 text-white py-2 rounded-lg text-center hover:bg-yellow-600 transition">
-            Editar usuario
+            Ver
         </a>
     </div>
 
 
    
-    <div class="bg-white border border-red-200 rounded-xl shadow hover:shadow-lg transition p-6 flex flex-col justify-between h-full">
+    <div class="bg-white border  rounded-xl shadow hover:shadow-lg transition p-6 flex flex-col justify-between h-full">
         
         <div>
-            <h2 class="text-lg font-semibold text-red-700 mb-4 text-center">Eliminar usuario</h2>
+            <h2 class="text-lg font-semibold text-red-700 mb-4 text-center">Talleres</h2>
 
             <ul class="text-sm text-gray-600 space-y-1 mb-6 list-disc list-inside text-left">
-                <li>Eliminar cuentas</li>
-                <li>Limpiar registros</li>
-                <li>Control de acceso</li>
-                <li>Gestión de permisos</li>
+                <li>Añadir</li>
+                <li>Editar</li>
+                <li>Eliminar</li>
+                <li>Visualizar</li>
             </ul>
         </div>
 
         <a href="eliminarUsuario.php"
            class="bg-red-600 text-white py-2 rounded-lg text-center hover:bg-red-700 transition">
-            Eliminar usuario
+            Ver
         </a>
     </div>
 
 
     
-    <div class="bg-white border border-blue-200 rounded-xl shadow hover:shadow-lg transition p-6 flex flex-col justify-between h-full">
+    <div class="bg-white border  rounded-xl shadow hover:shadow-lg transition p-6 flex flex-col justify-between h-full">
         
         <div>
-            <h2 class="text-lg font-semibold text-blue-700 mb-4 text-center">Ver usuarios</h2>
+            <h2 class="text-lg font-semibold text-blue-700 mb-4 text-center">Computadoras</h2>
 
             <ul class="text-sm text-gray-600 space-y-1 mb-6 list-disc list-inside text-left">
-                <li>Docentes registrados</li>
-                <li>Alumnos</li>
-                <li>Administradores</li>
-                <li>Técnicos</li>
+                <li>Añadir</li>
+                <li>Editar</li>
+                <li>Eliminar</li>
+                <li>Visualizar</li>
             </ul>
         </div>
 
         <a href="verUsuarios.php"
            class="bg-blue-600 text-white py-2 rounded-lg text-center hover:bg-blue-700 transition">
-            Ver usuarios
+            Ver 
         </a>
     </div>
+
+
 
 </div>
 
@@ -209,7 +211,7 @@ $reservasTotales = $queryReservasTotales->fetch(PDO::FETCH_ASSOC);
     </section>
 
     <div class="w-full bg-green-500 rounded font-semibold p-4 mt-5 text-white shadow hover:bg-green-700 transition">
-    <a href="#" class="w-full"> + Más acciones</a>
+   
   </div>
 
 </main>
