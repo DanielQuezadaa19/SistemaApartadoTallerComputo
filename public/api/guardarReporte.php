@@ -34,9 +34,9 @@ $guardado = $stmt->execute([
 ]);
 
 if ($guardado) {
-    header("Location: /sys_Taller_Computo/app/View/generarReporte.php?ok=1");
+    header("Location: /sys_Taller_Computo/app/View/docente/generarReporte.php?ok=1");
 } else {
-    header("Location: /sys_Taller_Computo/app/View/generarReporte.php?ok=0");
+    header("Location: /sys_Taller_Computo/app/View/docente/generarReporte.php?ok=0");
 }
 
 exit;

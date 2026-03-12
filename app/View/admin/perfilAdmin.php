@@ -134,7 +134,7 @@ $reservasTotales = $queryReservasTotales->fetch(PDO::FETCH_ASSOC);
             </ul>
         </div>
 
-        <a href="nuevoUsuario.php"
+        <a href="usuarios.php"
            class="bg-green-600 text-white py-2 rounded-lg text-center hover:bg-green-700 transition">
             Ver
         </a>
@@ -145,7 +145,7 @@ $reservasTotales = $queryReservasTotales->fetch(PDO::FETCH_ASSOC);
     <div class="bg-white border rounded-xl shadow hover:shadow-lg transition p-6 flex flex-col justify-between h-full">
         
         <div>
-            <h2 class="text-lg font-semibold text-yellow-700 mb-4 text-center">Computadoras</h2>
+            <h2 class="text-lg font-semibold text-yellow-700 mb-4 text-center">Carreras</h2>
 
             <ul class="text-sm text-gray-600 space-y-1 mb-6 list-disc list-inside text-left">
                 <li>Añadir</li>
@@ -155,7 +155,7 @@ $reservasTotales = $queryReservasTotales->fetch(PDO::FETCH_ASSOC);
             </ul>
         </div>
 
-        <a href="editarUsuario.php"
+        <a href="carreras.php"
            class="bg-yellow-500 text-white py-2 rounded-lg text-center hover:bg-yellow-600 transition">
             Ver
         </a>
@@ -176,7 +176,7 @@ $reservasTotales = $queryReservasTotales->fetch(PDO::FETCH_ASSOC);
             </ul>
         </div>
 
-        <a href="eliminarUsuario.php"
+        <a href="talleresAdmin.php"
            class="bg-red-600 text-white py-2 rounded-lg text-center hover:bg-red-700 transition">
             Ver
         </a>
@@ -197,7 +197,7 @@ $reservasTotales = $queryReservasTotales->fetch(PDO::FETCH_ASSOC);
             </ul>
         </div>
 
-        <a href="verUsuarios.php"
+        <a href="computadoras.php"
            class="bg-blue-600 text-white py-2 rounded-lg text-center hover:bg-blue-700 transition">
             Ver 
         </a>

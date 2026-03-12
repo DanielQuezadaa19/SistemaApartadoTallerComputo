@@ -135,6 +135,8 @@ $talleres = $queryTalleres->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
 
+
+
           
                 <div class="text-sm text-center mt-2">
                     <span class="font-medium text-gray-700">Estado:</span>

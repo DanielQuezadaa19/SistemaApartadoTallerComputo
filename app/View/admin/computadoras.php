@@ -11,6 +11,7 @@ if (!isset($_SESSION["idDocente"])) {
 }
 
 
+
 $sql = "
 SELECT 
 	c.idComputadora,
@@ -58,7 +59,11 @@ $totCompus = $queryC->fetch(PDO::FETCH_ASSOC);
         <p class="text-xl font-semibold ">
             Total de computadoras: <?= $totCompus["totComputadoras"] ?>
         </p>
-
+        <?php if(isset($_GET['error'])): ?>
+<div class="bg-red-100 text-red-700 p-2 rounded text-center mb-4">
+<?= htmlspecialchars($_GET['error']) ?>
+</div>
+<?php endif; ?>
         <a href="agregarComputadora.php" class="bg-blue-500 hover:bg-blue-700 text-center font-semibold text-white rounded-lg shadow p-2">Nueva computadora</a>
     </div>
 

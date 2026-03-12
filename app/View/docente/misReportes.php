@@ -116,47 +116,47 @@ $usuarioReservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <tr>
 
-    <td class="px-4 py-3">
+    <td class="px-4 py-3 text-center">
         <?= $u["idReporte"] ?>
     </td>
 
-    <td class="px-4 py-3 font-medium">
+    <td class="px-4 py-3 text-center">
         <?= $u["tipoReporte"] ?>
     </td>
 
-    <td class="px-4 py-3">
+    <td class="px-4 py-3 text-center">
         <?= $u["codigoComputadora"] ?>
     </td>
 
-    <td class="px-4 py-3">
+    <td class="px-4 py-3 text-center">
         <?= $u["descripcionReporte"] ?>
     </td>
 
-    <td class="px-4 py-3">
+    <td class="px-4 py-3 text-center">
         <?= $u["tecnico"] ?>
     </td>
 
-    <td class="px-4 py-3">
+    <td class="px-4 py-3 text-center">
         <?= date("d/m/Y", strtotime($u["fechaReporte"])) ?>
     </td>
 
-    <td class="px-4 py-3">
+    <td class="px-4 py-3 text-center">
 
     <?php if ($u["EstadoReporte"] === "Pendiente"): ?>
 
-    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm">
+    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm text-center">
     Pendiente
     </span>
 
     <?php elseif ($u["EstadoReporte"] === "En proceso"): ?>
 
-    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm text-center">
     En proceso
     </span>
 
     <?php elseif ($u["EstadoReporte"] === "Resuelto"): ?>
 
-    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
+    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm text-center">
     Resuelto
     </span>
 

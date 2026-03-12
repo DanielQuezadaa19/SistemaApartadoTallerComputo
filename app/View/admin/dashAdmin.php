@@ -126,7 +126,7 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
   <p class="bg-gray-50 text-left font-semibold text-gray-700 mt-3 mb-3 ml-3">General</p>
   <li>
-    <a href="/sys_Taller_Computo/app/View/talleres.php"" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
+    <a href="/sys_Taller_Computo/app/View/talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
       <img src="/sys_Taller_Computo/img/ordenadores.png" class="w-6 h-6">
       <span>Talleres</span>
     </a>
@@ -242,19 +242,19 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
         <tbody class="divide-y">
           <?php foreach ($usuarios as $u): ?>
           <tr>
-            <td class="px-4 py-3"><?= $u["idRegistro"] ?></td>
-            <td class="px-4 py-3 font-medium"><?= $u["sala"] ?></td>
-            <td class="px-4 py-3"><?= $u["docente"] ?></td>
-            <td class="px-4 py-3"><?= $u["correo"] ?></td>
-            <td class="px-4 py-3"><?= date("d/m/Y H:i", strtotime($u["fechaInicio"])) ?></td>
-            <td class="px-4 py-3"><?= date("d/m/Y H:i", strtotime($u["fechaFin"])) ?></td>
-            <td class="px-4 py-3">
+            <td class="px-4 py-3 text-center"><?= $u["idRegistro"] ?></td>
+            <td class="px-4 py-3 text-center"><?= $u["sala"] ?></td>
+            <td class="px-4 py-3 text-center"><?= $u["docente"] ?></td>
+            <td class="px-4 py-3 text-center"><?= $u["correo"] ?></td>
+            <td class="px-4 py-3 text-center"><?= date("d/m/Y H:i", strtotime($u["fechaInicio"])) ?></td>
+            <td class="px-4 py-3 text-center"><?= date("d/m/Y H:i", strtotime($u["fechaFin"])) ?></td>
+            <td class="px-4 py-3 text-center">
               <?php if ($u["estado"] === "En proceso"): ?>
-                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm">En proceso</span>
+                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm text-center">En proceso</span>
               <?php elseif ($u["estado"] === "Finalizado"): ?>
-                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">Finalizado</span>
+                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm text-center">Finalizado</span>
               <?php elseif ($u["estado"] === "Cancelado"): ?>
-                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm">Cancelado</span>
+                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm text-center">Cancelado</span>
               <?php endif; ?>
             </td>
           </tr>

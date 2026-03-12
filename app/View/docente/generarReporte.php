@@ -10,8 +10,7 @@ if (!isset($_SESSION["idDocente"])) {
     exit;
 }
 
-
-
+/* CONSULTAR SALAS */
 $sqlSalas = $pdo->query("
     SELECT t.idTaller, t.nombreSala, t.cantidadComputadoras,
     CASE 
@@ -29,6 +28,7 @@ $sqlSalas = $pdo->query("
 
 $salas = $sqlSalas->fetchAll(PDO::FETCH_ASSOC);
 
+/* COMPUTADORAS */
 $computadoras = [];
 
 if (!empty($_POST['idTaller'])) {
@@ -37,14 +37,18 @@ if (!empty($_POST['idTaller'])) {
     $computadoras = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/* MENSAJES */
 $mensaje = "";
 $error = false;
 
 if (isset($_GET['ok'])) {
+
     if ($_GET['ok'] == 1) {
         $mensaje = "Reporte enviado correctamente.";
         $error = false;
-    } else {
+    }
+
+    if ($_GET['ok'] == 0) {
         $mensaje = "Error al enviar el reporte.";
         $error = true;
     }
@@ -67,7 +71,7 @@ if (isset($_GET['ok'])) {
 
 <?php if ($mensaje): ?>
 <div class="text-center mb-5 p-2 rounded 
-    <?= $error ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700' ?>">
+<?= $error ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700' ?>">
     <?= htmlspecialchars($mensaje) ?>
 </div>
 <?php endif; ?>
@@ -77,57 +81,81 @@ class="max-w-md mx-auto bg-white p-5 rounded-lg flex flex-col gap-4 mt-5">
 
 <label class="font-bold">Seleccione sala de cómputo</label>
 <select name="idTaller" onchange="this.form.action=''; this.form.submit();" required class="p-2 rounded border">
-    <option value="">Elige una sala</option>
-    <?php foreach($salas as $sala): ?>
-        <option value="<?= $sala['idTaller'] ?>"
-            <?= (isset($_POST['idTaller']) && $_POST['idTaller'] == $sala['idTaller']) ? 'selected' : '' ?>>
-            <?= htmlspecialchars($sala['nombreSala']) ?>
-            (<?= $sala['cantidadComputadoras'] ?> computadoras)
-            - <?= $sala['estado'] ?>
-        </option>
-    <?php endforeach; ?>
+
+<option value="">Elige una sala</option>
+
+<?php foreach($salas as $sala): ?>
+
+<option value="<?= $sala['idTaller'] ?>"
+<?= (isset($_POST['idTaller']) && $_POST['idTaller'] == $sala['idTaller']) ? 'selected' : '' ?>>
+
+<?= htmlspecialchars($sala['nombreSala']) ?>
+(<?= $sala['cantidadComputadoras'] ?> computadoras)
+- <?= $sala['estado'] ?>
+
+</option>
+
+<?php endforeach; ?>
+
 </select>
 
 <label class="font-bold">Seleccione una computadora</label>
+
 <select name="idComputadora" required class="border p-2 rounded">
-    <option value="">Selecciona una computadora</option>
-    <?php foreach($computadoras as $computadora): ?>
-        <option value="<?= $computadora['idComputadora'] ?>">
-            <?= htmlspecialchars($computadora['codigoComputadora']) ?>
-        </option>
-    <?php endforeach; ?>
+
+<option value="">Selecciona una computadora</option>
+
+<?php foreach($computadoras as $computadora): ?>
+
+<option value="<?= $computadora['idComputadora'] ?>">
+<?= htmlspecialchars($computadora['codigoComputadora']) ?>
+</option>
+
+<?php endforeach; ?>
+
 </select>
 
 <label class="font-bold">Tipo de reporte</label>
+
 <select name="tipoReporte" required class="border p-2 rounded">
-    <option value="">Seleccione una opción</option>
-    <option value="Hardware">Falla de hardware</option>
-    <option value="Software">Falla de software</option>
-    <option value="Red">Problema de red</option>
-    <option value="No enciende">No enciende</option>
-    <option value="Lento">Equipo lento</option>
-    <option value="Daño físico">Daño físico</option>
-    <option value="Otro">Otro</option>
+
+<option value="">Seleccione una opción</option>
+<option value="Hardware">Falla de hardware</option>
+<option value="Software">Falla de software</option>
+<option value="Red">Problema de red</option>
+<option value="No enciende">No enciende</option>
+<option value="Lento">Equipo lento</option>
+<option value="Daño físico">Daño físico</option>
+<option value="Otro">Otro</option>
+
 </select>
 
 <label class="font-bold">Descripción</label>
+
 <textarea name="descripcion" required rows="3"
 class="border p-2 rounded"
 placeholder="Describe el problema..."></textarea>
 
 <label class="font-bold">Prioridad</label>
+
 <select name="prioridad" required class="border p-2 rounded">
-    <option value="Baja">Baja</option>
-    <option value="Media">Media</option>
-    <option value="Alta">Alta</option>
-    <option value="Urgente">Urgente</option>
+
+<option value="Baja">Baja</option>
+<option value="Media">Media</option>
+<option value="Alta">Alta</option>
+<option value="Urgente">Urgente</option>
+
 </select>
 
 <div class="text-center">
+
 <button type="submit"
 class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md">
-    Enviar Reporte
+
+Enviar Reporte
+
 </button>
+
 </div>
 
 </form>

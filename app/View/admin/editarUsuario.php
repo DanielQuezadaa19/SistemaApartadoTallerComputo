@@ -91,7 +91,7 @@ class="max-w-md mx-auto bg-white p-5 rounded-lg flex flex-col gap-4 mt-5 w-full"
 
         <label class="font-bold">Carrera</label>
             <select name="idCarrera" class="border p-2 rounded">
-            <option value="">Seleccione una carrera</option>
+            
             <?php foreach($carreras as $carrera): ?>
             <option value="<?= $carrera['idCarrera'] ?>">
                 <?= htmlspecialchars($carrera['nombreCarrera']) ?>

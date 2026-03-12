@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         } else {
 
-            $mensaje = "<p class='text-red-500 bg-red-200 p-2 rounded text-center'>Correo o contraseña incorrectos.</p>";
+            $mensaje = "<p class='text-red-600 bg-red-500 p-2 rounded text-center'>Correo o contraseña incorrectos.</p>";
         }
     }
 }
