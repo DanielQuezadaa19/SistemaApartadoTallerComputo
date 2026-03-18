@@ -5,7 +5,11 @@ require_once __DIR__ . "/../../../db/Database.php";
 
 $pdo = Database::connect();
 
-if(!isset($_SESSION["idDocente"])){
+if (
+    !isset($_SESSION["idDocente"]) ||
+    !isset($_SESSION["rol"]) ||
+    $_SESSION["rol"] != 2
+) {
     header("Location: /sys_Taller_Computo/public/api/login.php");
     exit;
 }

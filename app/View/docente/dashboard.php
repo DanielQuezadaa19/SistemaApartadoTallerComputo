@@ -6,7 +6,11 @@ require_once __DIR__ . "/../../../db/Database.php";
 
 $pdo = Database::connect();
 
-if (!isset($_SESSION["idDocente"])) {
+if (
+    !isset($_SESSION["idDocente"]) ||
+    !isset($_SESSION["rol"]) ||
+    $_SESSION["rol"] != 2
+) {
     header("Location: /sys_Taller_Computo/public/api/login.php");
     exit;
 }
@@ -46,12 +50,12 @@ FROM tallerComputo t
 $totalTalleres = (int)$stats['totalTalleres'];
 $totalTalleresLibres = (int)$stats['libres'];
 
-/* Totales de reservas */
+
 $totalReservas = (int)$pdo->query("SELECT COUNT(*) FROM registroTaller")->fetchColumn();
 $totalEnProceso = (int)$pdo->query("SELECT COUNT(*) FROM registroTaller WHERE estado = 'En proceso'")->fetchColumn();
 $totalFinalizadas = (int)$pdo->query("SELECT COUNT(*) FROM registroTaller WHERE estado = 'Finalizado'")->fetchColumn();
 
-/* Listado de reservas */
+
 $sql = "
 SELECT 
     rt.idRegistro,
@@ -75,7 +79,7 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
+<title>Dashboard - Docente</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans">

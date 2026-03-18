@@ -5,7 +5,11 @@ require_once __DIR__ . "/../../../db/Database.php";
 
 $pdo = Database::connect();
 
-if (!isset($_SESSION["idDocente"])) {
+if (
+    !isset($_SESSION["idDocente"]) ||
+    !isset($_SESSION["rol"]) ||
+    $_SESSION["rol"] != 1
+) {
     header("Location: /sys_Taller_Computo/public/api/login.php");
     exit;
 }
@@ -54,7 +58,7 @@ $reservasTotales = $queryReservasTotales->fetch(PDO::FETCH_ASSOC);
 
 <header class="w-full h-36 bg-green-600"></header>
 
-<main class="max-w-6xl mx-auto px-6 -mt-16">
+<main class="w-3/4 mx-auto px-6 -mt-16">
 
 
     <section class="bg-white rounded-xl shadow p-6 flex items-center gap-6">

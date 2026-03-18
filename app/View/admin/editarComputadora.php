@@ -4,7 +4,11 @@ require_once __DIR__ . "/../../../db/Database.php";
 
 $pdo = Database::connect();
 
-if (!isset($_SESSION["idDocente"])) {
+if (
+    !isset($_SESSION["idDocente"]) ||
+    !isset($_SESSION["rol"]) ||
+    $_SESSION["rol"] != 1
+) {
     header("Location: /sys_Taller_Computo/public/api/login.php");
     exit;
 }
@@ -27,7 +31,7 @@ $talleres = $pdo->query("SELECT * FROM tallercomputo")->fetchAll(PDO::FETCH_ASSO
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,10 +66,8 @@ required
 class="border p-2 rounded">
 
 <label class="font-bold">Taller a donde pertenecerá</label>
-
 <select name="idTaller" required class="border p-2 rounded">
 <option value="">Elige un taller</option>
-
 <?php foreach($talleres as $t): ?>
 <option 
 value="<?= $t['idTaller'] ?>"
@@ -73,7 +75,13 @@ value="<?= $t['idTaller'] ?>"
 <?= htmlspecialchars($t['nombreSala']) ?>
 </option>
 <?php endforeach ?>
+</select>
 
+<label class="font-bold">Estado de la computadora</label>
+<select name="estado" required class="border p-2 rounded">
+    <option value="Disponible" <?= $computadora['estado'] === 'Disponible' ? 'selected' : '' ?>>Disponible</option>
+    <option value="En mantenimiento" <?= $computadora['estado'] === 'En mantenimiento' ? 'selected' : '' ?>>En mantenimiento</option>
+    <option value="Fuera de servicio" <?= $computadora['estado'] === 'Fuera de servicio' ? 'selected' : '' ?>>Fuera de servicio</option>
 </select>
 
 <div class="text-center">

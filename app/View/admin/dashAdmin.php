@@ -6,7 +6,11 @@ require_once __DIR__ . "/../../../db/Database.php";
 
 $pdo = Database::connect();
 
-if (!isset($_SESSION["idDocente"])) {
+if (
+    !isset($_SESSION["idDocente"]) ||
+    !isset($_SESSION["rol"]) ||
+    $_SESSION["rol"] != 1
+) {
     header("Location: /sys_Taller_Computo/public/api/login.php");
     exit;
 }
@@ -75,7 +79,7 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
+<title>Dashboard - Admin</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans">
@@ -143,7 +147,7 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
   <li>
     <a href="../docente/misReportes.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition">
       <img src="/sys_Taller_Computo/img/misReportes.png" class="w-6 h-6">
-      <span>Reportes</span>
+      <span>Mis Reportes</span>
     </a>
   </li>
 
@@ -189,7 +193,7 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
         
       </div>
       <div class="flex justify-center">
-          <a href="usuarios.php" class="mt-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-center transition p-3">Ver usuarios</a>
+          <a href="../talleres.php" class="mt-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-center transition p-3">Ver talleres</a>
      </div>
         
     </div>

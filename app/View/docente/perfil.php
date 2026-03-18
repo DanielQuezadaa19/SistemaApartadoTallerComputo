@@ -5,7 +5,11 @@ require_once __DIR__ . "/../../../db/Database.php";
 
 $pdo = Database::connect();
 
-if (!isset($_SESSION["idDocente"])) {
+if (
+    !isset($_SESSION["idDocente"]) ||
+    !isset($_SESSION["rol"]) ||
+    $_SESSION["rol"] != 2
+) {
     header("Location: /sys_Taller_Computo/public/api/login.php");
     exit;
 }
@@ -70,7 +74,7 @@ $usuarioReservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <header class="w-full h-36 bg-blue-600"></header>
 
-<main class="max-w-6xl mx-auto px-6 -mt-16">
+<main class="w-3/4 mx-auto px-6 -mt-16">
 
 
     <section class="bg-white rounded-xl shadow p-6 flex items-center gap-6">
@@ -108,10 +112,12 @@ $usuarioReservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <section class="mt-8 flex flex-col lg:flex-row gap-6">
 
       
-        <div class="flex flex-col gap-6 w-full lg:w-1/3">
+        <div class="flex flex-col gap-6 w-full lg:w-1/4">
 
             <div class="bg-white rounded-xl shadow p-6">
                 <h2 class="text-lg font-semibold mb-4">Resumen</h2>
+
+
 
                 <div class="bg-blue-50 p-4 rounded-lg text-center">
                     <p class="text-3xl font-bold text-blue-600">
@@ -140,14 +146,14 @@ $usuarioReservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
    
-        <div class="flex flex-col gap-6 w-full lg:w-2/3">
+        <div class="flex flex-col gap-6 w-full flex-1">
 
           
             <div class="bg-white rounded-xl shadow p-6">
-                <h2 class="text-lg font-semibold mb-4">Mis reservas</h2>
+                <h2 class="text-2xl font-bold mb-4">Mis reservas</h2>
 
-                <div class="overflow-y-auto max-h-80">
-                    <table class="w-full text-sm">
+                <div class="overflow-y-auto max-h-72">
+                    <table class="min-w-full divide-y divide-gray-200 max-h-3 overflow-auto">
                         <thead class="border-b text-gray-500">
                             <tr>
                                 <th class="px-4 py-2 text-left">ID</th>
@@ -156,7 +162,7 @@ $usuarioReservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <th class="px-4 py-2 text-left">Correo</th>
                                 <th class="px-4 py-2 text-left">Inicio</th>
                                 <th class="px-4 py-2 text-left">Fin</th>
-                                <th class="px-4 py-2 text-left">Estado</th>
+                                <th class="px-4 py-2 text-left w-48">Estado</th>
                             </tr>
                         </thead>
 
@@ -170,7 +176,7 @@ $usuarioReservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td class="px-4 py-3"><?= $u["correo"] ?></td>
                                         <td class="px-4 py-3"><?= date("d/m/Y H:i", strtotime($u["fechaInicio"])) ?></td>
                                         <td class="px-4 py-3"><?= date("d/m/Y H:i", strtotime($u["fechaFin"])) ?></td>
-                                        <td class="px-4 py-3">
+                                        <td class="px-4 py-3 w-48">
                                             <?php if ($u["estado"] === "En proceso"): ?>
                                                 <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs">En proceso</span>
                                             <?php elseif ($u["estado"] === "Finalizado"): ?>

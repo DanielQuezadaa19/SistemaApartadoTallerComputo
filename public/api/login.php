@@ -24,6 +24,11 @@ if (isset($_SESSION["idDocente"])) {
         header("Location: /sys_Taller_Computo/app/View/docente/dashboard.php");
         exit;
     }
+
+     if ($rol == 3) {
+        header("Location: /sys_Taller_Computo/app/View/tecnico/dashTecnico.php");
+        exit;
+    }
 }
 
 
@@ -67,6 +72,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             if ($_SESSION["rol"] == 2) {
                 header("Location: /sys_Taller_Computo/app/View/docente/dashboard.php");
+                exit;
+            }
+
+            if($_SESSION["rol"] == 3){
+                 header("Location: /sys_Taller_Computo/app/View/tecnico/dashTecnico.php");
                 exit;
             }
 

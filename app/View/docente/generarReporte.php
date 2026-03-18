@@ -10,7 +10,7 @@ if (!isset($_SESSION["idDocente"])) {
     exit;
 }
 
-/* CONSULTAR SALAS */
+
 $sqlSalas = $pdo->query("
     SELECT t.idTaller, t.nombreSala, t.cantidadComputadoras,
     CASE 

@@ -4,7 +4,11 @@ require_once __DIR__ . "/../../../db/Database.php";
 
 $pdo = Database::connect();
 
-if (!isset($_SESSION["idDocente"]) || $_SESSION["rol"] != 1) {
+if (
+    !isset($_SESSION["idDocente"]) ||
+    !isset($_SESSION["rol"]) ||
+    $_SESSION["rol"] != 3
+) {
     header("Location: /sys_Taller_Computo/public/api/login.php");
     exit;
 }
@@ -122,7 +126,7 @@ $totCompus = $queryC->fetch(PDO::FETCH_ASSOC);
             <td class="px-4 py-3 text-center"><?= $c["nombreSala"] ?></td>
 
             <td class="px-4 py-3 text-center">
-                <a href="editarComputadora.php?idComputadora=<?= $c['idComputadora'] ?>" class="bg-yellow-400 p-2 font-semibold text-white rounded-lg shadow">Editar</a>
+                <a href="../admin/editarComputadora.php?idComputadora=<?= $c['idComputadora'] ?>" class="bg-yellow-400 p-2 font-semibold text-white rounded-lg shadow">Editar</a>
             </td>
            
             <td class="px-4 py-3 text-center">
