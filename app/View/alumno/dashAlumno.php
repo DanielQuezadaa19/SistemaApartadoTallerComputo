@@ -9,13 +9,15 @@ $pdo = Database::connect();
 if (
     !isset($_SESSION["idDocente"]) ||
     !isset($_SESSION["rol"]) ||
-    $_SESSION["rol"] != 2
+    $_SESSION["rol"] != 4
 ) {
     header("Location: /sys_Taller_Computo/public/api/login.php");
     exit;
 }
 
 date_default_timezone_set('America/Monterrey');
+
+$computadorasFuncionando = (int)$pdo->query("SELECT COUNT(*) FROM computadora WHERE estado = 'Disponible'")->fetchColumn();
 
 $pdo->query("
     UPDATE registroTaller
@@ -96,13 +98,6 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
       </li>
 
       <li>
-        <a href="misReservas.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
-          <img src="/sys_Taller_Computo/img/cita.png" class="w-6 h-6">
-          <span>Mis Reservas</span>
-        </a>
-      </li>
-
-      <li>
         <a href="../talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
           <img src="/sys_Taller_Computo/img/ordenadores.png" class="w-6 h-6">
           <span>Talleres</span>
@@ -110,21 +105,21 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
       </li>
 
       <li>
-        <a href="generarReporte.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition">
+        <a href="../docente/generarReporte.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition">
           <img src="/sys_Taller_Computo/img/oficina.png" class="w-6 h-6">
           <span>Generar reporte</span>
         </a>
       </li>
 
       <li>
-        <a href="misReportes.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition">
+        <a href="../docente/misReportes.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition">
           <img src="/sys_Taller_Computo/img/misReportes.png" class="w-6 h-6">
           <span>Mis reportes</span>
         </a>
       </li>
 
       <li>
-        <a href="perfil.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
+        <a href="perfilAlumno.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
           <img src="/sys_Taller_Computo/img/usuario.png" class="w-6 h-6">
           <span>Mi perfil</span>
         </a>
@@ -168,29 +163,13 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="flex-1 bg-white p-4 sm:p-6 rounded-2xl shadow hover:shadow-lg transition">
       <div class="flex items-center gap-4 mb-4">
-        <img src="/sys_Taller_Computo/img/ordenador-personal.png" class="w-10 h-10 sm:w-12 sm:h-12">
-        <h2 class="text-lg sm:text-2xl font-semibold">Reservas</h2>
+        <img src="/sys_Taller_Computo/img/computadorass.png" class="w-10 h-10 sm:w-12 sm:h-12">
+        <h2 class="text-lg sm:text-2xl font-semibold">Computadoras Funcionando</h2>
       </div>
-      <div class="flex justify-between">
-        <div class="text-center">
-          <p class="text-2xl sm:text-4xl font-bold text-yellow-500"><?= $totalEnProceso ?></p>
-          <span>En proceso</span>
-        </div>
-        <div class="text-center">
-          <p class="text-2xl sm:text-4xl font-bold text-blue-500"><?= $totalFinalizadas ?></p>
-          <span>Finalizadas</span>
-        </div>
+      <div class="text-center">
+        <p class="text-2xl sm:text-4xl font-bold text-green-500"><?= $computadorasFuncionando ?></p>
+        <span>Funcionando</span>
       </div>
-    </div>
-
-    <div class="flex-1 bg-white p-4 sm:p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
-      <div class="flex items-center gap-4 mb-4">
-        <img src="/sys_Taller_Computo/img/mas.png" class="w-10 h-10 sm:w-12 sm:h-12">
-        <h2 class="text-lg sm:text-2xl font-semibold">Nueva Reserva</h2>
-      </div>
-      <a href="registrarReserva.php" class="mt-auto w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-center transition">
-        Nueva reserva
-      </a>
     </div>
 
   </div>
@@ -216,7 +195,7 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             <td class="px-3 sm:px-4 py-2 sm:py-3"><?= $u["idRegistro"] ?></td>
             <td class="px-3 sm:px-4 py-2 sm:py-3 font-medium break-words"><?= $u["sala"] ?></td>
             <td class="px-3 sm:px-4 py-2 sm:py-3 break-words"><?= $u["docente"] ?></td>
-            <td class="px-3 sm:px-4 py-2 sm:py-3 break-all"><?= $u["correo"] ?></td>
+            <td class="px-3 sm:px-4 py-2 sm:py-3 break-words"><?= $u["correo"] ?></td>
             <td class="px-3 sm:px-4 py-2 sm:py-3"><?= date("d/m/Y H:i", strtotime($u["fechaInicio"])) ?></td>
             <td class="px-3 sm:px-4 py-2 sm:py-3"><?= date("d/m/Y H:i", strtotime($u["fechaFin"])) ?></td>
             <td class="px-3 sm:px-4 py-2 sm:py-3">

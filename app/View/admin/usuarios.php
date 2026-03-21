@@ -38,7 +38,6 @@ $queryUsuarios->execute();
 $totUsuarios = $queryUsuarios->fetch(PDO::FETCH_ASSOC);
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,58 +46,64 @@ $totUsuarios = $queryUsuarios->fetch(PDO::FETCH_ASSOC);
     <title>Usuarios</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-200">
+<body class="bg-gray-200 min-h-screen flex flex-col">
 
-<header class="bg-white shadow-lg flex justify-between items-center px-6 w-full">
-    <h1 class="text-blue-600 border-b p-5 text-3xl font-bold">
+<header class="bg-white shadow-lg flex flex-col sm:flex-row justify-between items-center px-4 sm:px-6 w-full py-4 gap-3">
+    <h1 class="text-blue-600 border-b sm:border-none p-2 sm:p-5 text-2xl sm:text-3xl font-bold text-center sm:text-left w-full sm:w-auto">
         Gestión de usuarios
     </h1>
-
 </header>
 
-<main class="p-6">
+<main class="p-4 sm:p-6 flex-1">
 
-<div class="m-5 flex justify-between">
-        <p class="text-xl font-semibold ">
+<div class="m-2 sm:m-5 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p class="text-lg sm:text-xl font-semibold text-center sm:text-left">
             Total de usuarios: <?= $totUsuarios["totUsuarios"] ?>
         </p>
 
-        <a href="agregarUsuario.php" class="bg-blue-500 hover:bg-blue-700 text-center font-semibold text-white rounded-lg shadow p-2">Nuevo usuario</a>
+        <a href="agregarUsuario.php" class="w-full sm:w-auto bg-blue-500 hover:bg-blue-700 text-center font-semibold text-white rounded-lg shadow p-3">
+            Nuevo usuario
+        </a>
     </div>
 
-    <section class="bg-white p-6 rounded-2xl shadow">
-    <h2 class="text-2xl font-bold mb-4">Usuarios</h2>
-    <div class="overflow-x-auto max-h-72">
-      <table class="min-w-full divide-y divide-gray-200 max-h-3 overflow-auto">
+    <section class="bg-white p-4 sm:p-6 rounded-2xl shadow w-full">
+    <h2 class="text-xl sm:text-2xl font-bold mb-4 text-center sm:text-left">Usuarios</h2>
+    
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 text-xs sm:text-sm">
         <thead class="bg-gray-50">
           <tr>
-            <th class="px-4 py-3">ID</th>
-            <th class="px-4 py-3">Nombre</th>
-            <th class="px-4 py-3">AP Paterno</th>
-            <th class="px-4 py-3">AP Materno</th>
-            <th class="px-4 py-3">Correo</th>
-            <th class="px-4 py-3">Rol</th>
-            <th class="px-4 py-3">Carrera</th>
-            <th class="px-4 py-3">Editar</th>
-            <th class="px-4 py-3">Eliminar</th>
+            <th class="px-3 sm:px-4 py-2 sm:py-3">ID</th>
+            <th class="px-3 sm:px-4 py-2 sm:py-3">Nombre</th>
+            <th class="px-3 sm:px-4 py-2 sm:py-3">AP Paterno</th>
+            <th class="px-3 sm:px-4 py-2 sm:py-3">AP Materno</th>
+            <th class="px-3 sm:px-4 py-2 sm:py-3">Correo</th>
+            <th class="px-3 sm:px-4 py-2 sm:py-3">Rol</th>
+            <th class="px-3 sm:px-4 py-2 sm:py-3">Carrera</th>
+            <th class="px-3 sm:px-4 py-2 sm:py-3">Editar</th>
+            <th class="px-3 sm:px-4 py-2 sm:py-3">Eliminar</th>
           </tr>
         </thead>
         <tbody class="divide-y">
           <?php foreach ($usuarios as $u): ?>
-          <tr>
-            <td class="px-4 py-3 text-center"><?= $u["idDocente"] ?></td>
-            <td class="px-4 py-3 text-center"><?= $u["nombre"] ?></td>
-            <td class="px-4 py-3 text-center"><?= $u["apellidoPaterno"] ?></td>
-            <td class="px-4 py-3 text-center"><?= $u["apellidoMaterno"] ?></td>
-            <td class="px-4 py-3 text-center"><?= $u["correo"] ?></td>
-            <td class="px-4 py-3 text-center"><?= $u["nombreRol"] ?></td>
-            <td class="px-4 py-3 text-center"><?= $u["nombreCarrera"] ?></td>
-            <td class="px-4 py-3 text-center">
-                <a href="editarUsuario.php?id=<?= $u['idDocente'] ?>" class="bg-yellow-400 p-2 font-semibold text-center  rounded-lg m-2 shadow text-white" >Editar</a>
+          <tr class="text-center">
+            <td class="px-3 sm:px-4 py-2 sm:py-3 break-words"><?= $u["idDocente"] ?></td>
+            <td class="px-3 sm:px-4 py-2 sm:py-3 break-words"><?= $u["nombre"] ?></td>
+            <td class="px-3 sm:px-4 py-2 sm:py-3 break-words"><?= $u["apellidoPaterno"] ?></td>
+            <td class="px-3 sm:px-4 py-2 sm:py-3 break-words"><?= $u["apellidoMaterno"] ?></td>
+            <td class="px-3 sm:px-4 py-2 sm:py-3 break-words"><?= $u["correo"] ?></td>
+            <td class="px-3 sm:px-4 py-2 sm:py-3 break-words"><?= $u["nombreRol"] ?></td>
+            <td class="px-3 sm:px-4 py-2 sm:py-3 break-words"><?= $u["nombreCarrera"] ?></td>
+            <td class="px-3 sm:px-4 py-2 sm:py-3">
+                <a href="editarUsuario.php?id=<?= $u['idDocente'] ?>" class="block w-full sm:inline-block bg-yellow-400 p-2 font-semibold text-center rounded-lg shadow text-white">
+                    Editar
+                </a>
             </td>
            
-            <td class="px-4 py-3 text-center">
-                <a href="/sys_Taller_Computo/public/api/eliminarUsuario.php?id=<?= $u['idDocente'] ?>" class="bg-red-600 p-2 font-semibold text-center shadow rounded-lg m-2 text-white" >Eliminar</a>
+            <td class="px-3 sm:px-4 py-2 sm:py-3">
+                <a href="/sys_Taller_Computo/public/api/eliminarUsuario.php?id=<?= $u['idDocente'] ?>" class="block w-full sm:inline-block bg-red-600 p-2 font-semibold text-center shadow rounded-lg text-white">
+                    Eliminar
+                </a>
             </td>
             
           </tr>
@@ -108,8 +113,6 @@ $totUsuarios = $queryUsuarios->fetch(PDO::FETCH_ASSOC);
     </div>
   </section>
 </main>
-
-
 
 </body>
 </html>

@@ -14,8 +14,6 @@ if (
     exit;
 }
 
-
-
 $queryTalleres = $pdo->query("
     SELECT 
         t.idTaller, 
@@ -51,19 +49,19 @@ $talleres = $queryTalleres->fetchAll(PDO::FETCH_ASSOC);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Talleres</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-200">
+<body class="bg-gray-200 min-h-screen flex flex-col">
 
-<header class="bg-white shadow-lg flex justify-between items-center px-6 w-full">
-    <h1 class="text-blue-600 border-b p-5 text-3xl font-bold">
+<header class="bg-white shadow-lg flex flex-col sm:flex-row justify-between items-center px-4 sm:px-6 w-full gap-4 sm:gap-0 py-4">
+    <h1 class="text-blue-600 border-b sm:border-none p-2 sm:p-5 text-2xl sm:text-3xl font-bold text-center sm:text-left w-full sm:w-auto">
         Talleres de Cómputo
     </h1>
 
-    
-    <select id="filtroEstado" class="border rounded p-2 shadow-lg">
+    <select id="filtroEstado" class="border rounded p-2 shadow-lg w-full sm:w-auto">
         <option value="todos">Todos</option>
         <option value="Libre">Libre</option>
         <option value="Apartado">Apartado</option>
@@ -71,11 +69,14 @@ $talleres = $queryTalleres->fetchAll(PDO::FETCH_ASSOC);
     </select>
 </header>
 
-<main class="p-6">
-    <div class="flex justify-end mr-6 mb-6">
-        <a href="agregarTaller.php" class="bg-blue-500 hover:bg-blue-700 text-center font-semibold text-white rounded-lg shadow p-2">Nuevo taller</a>
+<main class="p-4 sm:p-6 flex-1">
+    <div class="flex justify-center sm:justify-end mb-6">
+        <a href="agregarTaller.php" class="w-full sm:w-auto bg-blue-500 hover:bg-blue-700 text-center font-semibold text-white rounded-lg shadow p-3">
+            Nuevo taller
+        </a>
     </div>
-    <div class="flex flex-wrap justify-center gap-6">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         <?php foreach ($talleres as $t): ?>
             
             <?php 
@@ -86,26 +87,19 @@ $talleres = $queryTalleres->fetchAll(PDO::FETCH_ASSOC);
             ?>
 
             <section 
-                class="card 
-                       w-full 
-                       sm:w-[48%] 
-                       md:w-[31%] 
-                       lg:w-[23%] 
-                       xl:w-[19%] 
-                       bg-white rounded-xl shadow-md p-5 space-y-3 hover:shadow-xl transition"
+                class="card w-full bg-white rounded-xl shadow-md p-4 sm:p-5 space-y-3 hover:shadow-xl transition"
                 data-estado="<?= $t['estado'] ?>">
                 
-                <h2 class="text-xl font-semibold text-gray-800 text-center tracking-wide">
+                <h2 class="text-lg sm:text-xl font-semibold text-gray-800 text-center tracking-wide break-words">
                     <?= htmlspecialchars($t['nombreSala']) ?>
                 </h2>
 
-                <div class="text-sm text-gray-600 text-center">
+                <div class="text-xs sm:text-sm text-gray-600 text-center">
                     <span class="font-medium">ID:</span>
                     <?= $t['idTaller'] ?>
                 </div>
 
-                
-                <div class="space-y-1 text-sm">
+                <div class="space-y-1 text-xs sm:text-sm">
 
                     <div>
                         <span class="font-medium text-gray-700">Total:</span>
@@ -130,19 +124,14 @@ $talleres = $queryTalleres->fetchAll(PDO::FETCH_ASSOC);
 
                 </div>
 
-              
                 <div class="w-full bg-gray-300 rounded-full h-3 mt-2">
                     <div 
                         class="bg-blue-500 h-3 rounded-full transition-all duration-500"
                         style="width: <?= $porcentaje ?>%">
-
                     </div>
                 </div>
 
-
-
-          
-                <div class="text-sm text-center mt-2">
+                <div class="text-xs sm:text-sm text-center mt-2">
                     <span class="font-medium text-gray-700">Estado:</span>
                     <span class="font-semibold
                         <?= $t['estado'] === 'Libre' ? 'text-green-500' : '' ?>
@@ -152,9 +141,13 @@ $talleres = $queryTalleres->fetchAll(PDO::FETCH_ASSOC);
                     </span>
                 </div>
 
-                <div class="flex justify-evenly p-3 border-t border-gray-300">
-                    <a href="editarTaller.php?idTaller=<?= $t['idTaller'] ?>" class="bg-yellow-400 p-2 font-semibold text-center  rounded-lg m-2 shadow text-white">Editar</a>
-                    <a href="/sys_Taller_Computo/public/api/eliminarTaller.php?idTaller=<?= $t['idTaller'] ?>" class="bg-red-600 p-2 font-semibold text-center  rounded-lg m-2 shadow text-white">Eliminar</a>
+                <div class="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4 pt-3 border-t border-gray-300">
+                    <a href="editarTaller.php?idTaller=<?= $t['idTaller'] ?>" class="w-full sm:w-auto bg-yellow-400 p-2 font-semibold text-center rounded-lg shadow text-white">
+                        Editar
+                    </a>
+                    <a href="/sys_Taller_Computo/public/api/eliminarTaller.php?idTaller=<?= $t['idTaller'] ?>" class="w-full sm:w-auto bg-red-600 p-2 font-semibold text-center rounded-lg shadow text-white">
+                        Eliminar
+                    </a>
                 </div>
 
             </section>

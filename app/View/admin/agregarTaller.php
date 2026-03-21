@@ -10,16 +10,12 @@ if (!isset($_SESSION["idDocente"]) || $_SESSION["rol"] != 1) {
     exit;
 }
 
-
-
 $stmtSalas = $pdo->query("
     SELECT idTaller, nombreSala, cantidadComputadoras
     FROM tallercomputo 
 ");
 $salas = $stmtSalas->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,33 +26,33 @@ $salas = $stmtSalas->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="flex flex-col justify-center items-center font-sans p-5 bg-gray-100">
+<body class="min-h-screen flex flex-col justify-center items-center font-sans p-4 bg-gray-100">
 
-<h1 class="text-blue-600 font-bold text-2xl border-b-2 border-gray-200 p-2 text-center w-full">
+<h1 class="text-blue-600 font-bold text-xl md:text-2xl border-b-2 border-gray-200 p-2 text-center w-full max-w-md">
     Agregar taller
 </h1>
-    
 
 <form method="POST" action="/sys_Taller_Computo/public/api/nuevoTaller.php" onsubmit="return verificarCantidad()"
-    class="max-w-md mx-auto bg-white p-5 rounded-lg flex flex-col gap-4 mt-5 w-full">
+class="w-full max-w-md mx-auto bg-white p-5 md:p-6 rounded-lg flex flex-col gap-4 mt-5 shadow">
 
     <label class="font-bold">Nombre taller</label>
-        <input type="text" name="nombreTaller" required class="border p-2 rounded">
+    <input type="text" name="nombreTaller" required class="border p-2 rounded w-full">
 
-        <label class="font-bold">Cantidad computadoras</label>
-        <input type="number" name="cantidadComputadoras" required class="border p-2 rounded" id="cantidadComputadoras">
+    <label class="font-bold">Cantidad computadoras</label>
+    <input type="number" name="cantidadComputadoras" required class="border p-2 rounded w-full" id="cantidadComputadoras">
 
-        <label class="font-bold">Computadoras funcionando</label>
-        <input type="number" name="cantidadComputadorasFuncionando" required class="border p-2 rounded" id="cantidadComputadorasFuncionando">
+    <label class="font-bold">Computadoras funcionando</label>
+    <input type="number" name="cantidadComputadorasFuncionando" required class="border p-2 rounded w-full" id="cantidadComputadorasFuncionando">
 
+    <div class="text-center">
+        <button type="submit" 
+        class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md">
+            Crear taller
+        </button>
+    </div>
 
-        <div class="text-center">
-            <button type="submit" 
-            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md">
-                Crear taller
-            </button>
-        </div>
-    </form>
+</form>
+
 </body>
 
 <script>
@@ -66,16 +62,11 @@ function verificarCantidad(){
     let cantidadComputadorasFuncionando = parseInt(document.getElementById('cantidadComputadorasFuncionando').value);
 
     if(cantidadComputadorasFuncionando > cantidadComputadoras){
-    alert("La cantidad de computadoras funcionando no puede ser mayor al total.");
-    return false;
-    
+        alert("La cantidad de computadoras funcionando no puede ser mayor al total.");
+        return false;
     }else{
         return true;
     }
-
-
 }
-    
-  
 </script>
 </html>

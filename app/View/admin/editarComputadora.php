@@ -6,8 +6,7 @@ $pdo = Database::connect();
 
 if (
     !isset($_SESSION["idDocente"]) ||
-    !isset($_SESSION["rol"]) ||
-    $_SESSION["rol"] != 1
+    !isset($_SESSION["rol"])
 ) {
     header("Location: /sys_Taller_Computo/public/api/login.php");
     exit;
@@ -39,21 +38,21 @@ $talleres = $pdo->query("SELECT * FROM tallercomputo")->fetchAll(PDO::FETCH_ASSO
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="flex flex-col justify-center items-center font-sans p-5 bg-gray-100">
+<body class="min-h-screen flex flex-col justify-center items-center font-sans p-4 bg-gray-100">
 
-<h1 class="text-blue-600 font-bold text-2xl border-b-2 border-gray-200 p-2 text-center w-full">
+<h1 class="text-blue-600 font-bold text-xl md:text-2xl border-b-2 border-gray-200 p-2 text-center w-full max-w-md">
     Editar computadora
 </h1>
 
 <?php if ($mensaje): ?>
-<div class="text-center mb-5 p-2 rounded 
+<div class="w-full max-w-md text-center mb-5 p-2 rounded 
 <?= $error ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700' ?>">
 <?= htmlspecialchars($mensaje) ?>
 </div>
 <?php endif; ?>
 
 <form method="POST" action="/sys_Taller_Computo/public/api/actualizarComputadora.php"
-class="max-w-md mx-auto bg-white p-5 rounded-lg flex flex-col gap-4 mt-5 w-full">
+class="w-full max-w-md mx-auto bg-white p-5 md:p-6 rounded-lg flex flex-col gap-4 mt-5 shadow">
 
 <input type="hidden" name="idComputadora" value="<?= $computadora['idComputadora'] ?>">
 
@@ -63,10 +62,10 @@ type="text"
 name="codigoComputadora"
 value="<?= htmlspecialchars($computadora['codigoComputadora']) ?>"
 required
-class="border p-2 rounded">
+class="border p-2 rounded w-full">
 
 <label class="font-bold">Taller a donde pertenecerá</label>
-<select name="idTaller" required class="border p-2 rounded">
+<select name="idTaller" required class="border p-2 rounded w-full">
 <option value="">Elige un taller</option>
 <?php foreach($talleres as $t): ?>
 <option 
@@ -78,7 +77,7 @@ value="<?= $t['idTaller'] ?>"
 </select>
 
 <label class="font-bold">Estado de la computadora</label>
-<select name="estado" required class="border p-2 rounded">
+<select name="estado" required class="border p-2 rounded w-full">
     <option value="Disponible" <?= $computadora['estado'] === 'Disponible' ? 'selected' : '' ?>>Disponible</option>
     <option value="En mantenimiento" <?= $computadora['estado'] === 'En mantenimiento' ? 'selected' : '' ?>>En mantenimiento</option>
     <option value="Fuera de servicio" <?= $computadora['estado'] === 'Fuera de servicio' ? 'selected' : '' ?>>Fuera de servicio</option>
@@ -86,7 +85,7 @@ value="<?= $t['idTaller'] ?>"
 
 <div class="text-center">
 <button type="submit"
-class="bg-yellow-600 hover:bg-yellow-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md">
+class="w-full md:w-auto bg-yellow-600 hover:bg-yellow-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md">
 Editar computadora
 </button>
 </div>

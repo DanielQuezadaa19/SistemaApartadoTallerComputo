@@ -10,7 +10,6 @@ if (!isset($_SESSION["idDocente"])) {
     exit;
 }
 
-
 $sqlSalas = $pdo->query("
     SELECT t.idTaller, t.nombreSala, t.cantidadComputadoras,
     CASE 
@@ -28,7 +27,6 @@ $sqlSalas = $pdo->query("
 
 $salas = $sqlSalas->fetchAll(PDO::FETCH_ASSOC);
 
-/* COMPUTADORAS */
 $computadoras = [];
 
 if (!empty($_POST['idTaller'])) {
@@ -37,15 +35,14 @@ if (!empty($_POST['idTaller'])) {
     $computadoras = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-/* MENSAJES */
 $mensaje = "";
 $error = false;
 
 if (isset($_GET['ok'])) {
-
     if ($_GET['ok'] == 1) {
         $mensaje = "Reporte enviado correctamente.";
         $error = false;
+        
     }
 
     if ($_GET['ok'] == 0) {
@@ -59,28 +56,29 @@ if (isset($_GET['ok'])) {
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Generar reporte</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="flex flex-col justify-center items-center font-sans p-5 bg-gray-100">
+<body class="flex flex-col justify-center items-center font-sans p-4 sm:p-6 bg-gray-100">
 
-<h1 class="text-blue-600 font-bold text-2xl border-b-2 border-gray-200 p-2 text-center w-full">
+<h1 class="text-blue-600 font-bold text-xl sm:text-2xl border-b-2 border-gray-200 p-2 text-center w-full">
     Generar reporte
 </h1>
 
 <?php if ($mensaje): ?>
-<div class="text-center mb-5 p-2 rounded 
+<div class="text-center mb-5 p-2 rounded w-full max-w-md
 <?= $error ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700' ?>">
     <?= htmlspecialchars($mensaje) ?>
 </div>
 <?php endif; ?>
 
 <form method="POST" action="/sys_Taller_Computo/public/api/guardarReporte.php" 
-class="max-w-md mx-auto bg-white p-5 rounded-lg flex flex-col gap-4 mt-5">
+class="w-full max-w-md mx-auto bg-white p-4 sm:p-5 rounded-lg flex flex-col gap-4 mt-5">
 
-<label class="font-bold">Seleccione sala de cómputo</label>
-<select name="idTaller" onchange="this.form.action=''; this.form.submit();" required class="p-2 rounded border">
+<label class="font-bold text-sm sm:text-base">Seleccione sala de cómputo</label>
+<select name="idTaller" onchange="this.form.action=''; this.form.submit();" required class="p-2 rounded border text-sm sm:text-base">
 
 <option value="">Elige una sala</option>
 
@@ -99,9 +97,9 @@ class="max-w-md mx-auto bg-white p-5 rounded-lg flex flex-col gap-4 mt-5">
 
 </select>
 
-<label class="font-bold">Seleccione una computadora</label>
+<label class="font-bold text-sm sm:text-base">Seleccione una computadora</label>
 
-<select name="idComputadora" required class="border p-2 rounded">
+<select name="idComputadora" required class="border p-2 rounded text-sm sm:text-base">
 
 <option value="">Selecciona una computadora</option>
 
@@ -115,9 +113,9 @@ class="max-w-md mx-auto bg-white p-5 rounded-lg flex flex-col gap-4 mt-5">
 
 </select>
 
-<label class="font-bold">Tipo de reporte</label>
+<label class="font-bold text-sm sm:text-base">Tipo de reporte</label>
 
-<select name="tipoReporte" required class="border p-2 rounded">
+<select name="tipoReporte" required class="border p-2 rounded text-sm sm:text-base">
 
 <option value="">Seleccione una opción</option>
 <option value="Hardware">Falla de hardware</option>
@@ -130,15 +128,15 @@ class="max-w-md mx-auto bg-white p-5 rounded-lg flex flex-col gap-4 mt-5">
 
 </select>
 
-<label class="font-bold">Descripción</label>
+<label class="font-bold text-sm sm:text-base">Descripción</label>
 
 <textarea name="descripcion" required rows="3"
-class="border p-2 rounded"
+class="border p-2 rounded text-sm sm:text-base"
 placeholder="Describe el problema..."></textarea>
 
-<label class="font-bold">Prioridad</label>
+<label class="font-bold text-sm sm:text-base">Prioridad</label>
 
-<select name="prioridad" required class="border p-2 rounded">
+<select name="prioridad" required class="border p-2 rounded text-sm sm:text-base">
 
 <option value="Baja">Baja</option>
 <option value="Media">Media</option>
@@ -150,7 +148,7 @@ placeholder="Describe el problema..."></textarea>
 <div class="text-center">
 
 <button type="submit"
-class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md">
+class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md">
 
 Enviar Reporte
 

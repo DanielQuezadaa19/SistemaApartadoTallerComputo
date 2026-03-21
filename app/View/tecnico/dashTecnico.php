@@ -1,17 +1,11 @@
 <?php
-
 session_start();
-
 require_once __DIR__ . "/../../../db/Database.php";
 
 $pdo = Database::connect();
 
 $idTecnico = $_SESSION["idDocente"];
-if (
-    !isset($_SESSION["idDocente"]) ||
-    !isset($_SESSION["rol"]) ||
-    $_SESSION["rol"] != 3
-) {
+if (!isset($_SESSION["idDocente"]) || !isset($_SESSION["rol"]) || $_SESSION["rol"] != 3) {
     header("Location: /sys_Taller_Computo/public/api/login.php");
     exit;
 }
@@ -23,23 +17,15 @@ $computadorasFuncionando = (int)$pdo->query("SELECT COUNT(*) FROM computadora WH
 $computadorasEnMantenimiento = (int)$pdo->query("SELECT COUNT(*) FROM computadora WHERE estado = 'En mantenimiento'")->fetchColumn();
 $computadorasFueraDeServicio = (int)$pdo->query("SELECT COUNT(*) FROM computadora WHERE estado = 'Fuera de servicio'")->fetchColumn();
 
-
-
 $totalReportes = (int)$pdo->query("SELECT COUNT(*) FROM reportes WHERE estadoReporte = 'En proceso'")->fetchColumn();
-
-
 
 $stmt = $pdo->prepare("SELECT COUNT(*) FROM reportes WHERE idTecnicoAtendio = ?");
 $stmt->execute([$idTecnico]);
-
 $totalReportesPropios = (int)$stmt->fetchColumn();
-
-
-
 
 $sql = "
 SELECT 
-	r.idReporte,
+    r.idReporte,
     r.descripcionReporte,
     r.tipoReporte,
     r.prioridad,
@@ -47,13 +33,17 @@ SELECT
     r.fechaReporte,
     c.codigoComputadora,
     t.nombreSala
-    FROM reportes r
-    INNER JOIN computadora c ON c.idComputadora = r.idComputadoraReporte
-    INNER JOIN tallercomputo t ON t.idTaller = c.idTaller;
+FROM reportes r
+INNER JOIN computadora c ON c.idComputadora = r.idComputadoraReporte
+INNER JOIN tallercomputo t ON t.idTaller = c.idTaller
+ORDER BY 
+    CASE 
+        WHEN r.idTecnicoAtendio IS NULL THEN 0
+        ELSE 1
+    END,
+    r.fechaReporte DESC;
 ";
-
 $reportes = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-$stmt = $pdo->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -66,126 +56,74 @@ $stmt = $pdo->query($sql);
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans">
 
-
-<aside class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg flex flex-col">
+<aside class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg flex flex-col z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
   <div class="p-6 border-b border-gray-200">
     <h1 class="text-2xl font-bold text-blue-600 text-center">UPG Apartados</h1>
   </div>
   <nav class="flex-1 mt-4">
     <ul class="space-y-2">
-  <li>
-    <a href="#" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/pagina-de-inicio.png" class="w-6 h-6">
-      <span>Inicio</span>
-    </a>
-  </li>
-
-
-  <li>
-    <a href="../talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/ordenadores.png" class="w-6 h-6">
-      <span>Talleres</span>
-    </a>
-  </li>
-
-
-  <li>
-    <a href="../../View/docente/generarReporte.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/oficina.png" class="w-6 h-6">
-      <span>Generar reporte</span>
-    </a>
-  </li>
-
-  <li>
-    <a href="../docente/misReportes.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/misReportes.png" class="w-6 h-6">
-      <span>Mis reportes</span>
-    </a>
-  </li>
-
-    <li>
-    <a href="reportes.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/verReportes.png" class="w-6 h-6">
-      <span>Ver reportes</span>
-    </a>
-  </li>
-
- <li>
-    <a href="perfilTecnico.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/usuario.png" class="w-6 h-6">
-      <span>Mi perfil</span>
-    </a>
-  </li>
-
-  <li>
-    <a href="/sys_Taller_Computo/public/api/logout.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-red-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/logout.png" class="w-6 h-6">
-      <span>Cerrar sesión</span>
-    </a>
-  </li>
-</ul>
+      <li><a href="#" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/pagina-de-inicio.png" class="w-6 h-6"><span>Inicio</span></a></li>
+      <li><a href="../talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/ordenadores.png" class="w-6 h-6"><span>Talleres</span></a></li>
+      <li><a href="../../View/docente/generarReporte.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/oficina.png" class="w-6 h-6"><span>Generar reporte</span></a></li>
+      <li><a href="../docente/misReportes.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/misReportes.png" class="w-6 h-6"><span>Mis reportes</span></a></li>
+      <li><a href="reportes.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/verReportes.png" class="w-6 h-6"><span>Ver reportes</span></a></li>
+      <li><a href="perfilTecnico.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/usuario.png" class="w-6 h-6"><span>Mi perfil</span></a></li>
+      <li><a href="/sys_Taller_Computo/public/api/logout.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-red-50 rounded-lg transition"><img src="/sys_Taller_Computo/img/logout.png" class="w-6 h-6"><span>Cerrar sesión</span></a></li>
+    </ul>
   </nav>
 </aside>
 
-  <main class="ml-64 p-8">
+<button id="sidebarToggle" class="fixed top-4 left-4 z-50 bg-blue-600 text-white p-2 rounded-lg md:hidden">☰</button>
+
+<main class="ml-0 md:ml-64 p-8 transition-all duration-300">
   <header class="flex justify-between items-center mb-8">
     <h1 class="text-4xl font-bold text-blue-600">Bienvenido, <?= htmlspecialchars($_SESSION["nombre"]) ?></h1>
   </header>
 
-
   <div class="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0 mb-6">
-    
-    <div class="flex-1 bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+    <div class="flex-1 bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
       <div class="flex items-center gap-4 mb-4">
         <img src="/sys_Taller_Computo/img/resumenReporte.png" class="w-12 h-12">
         <h2 class="text-2xl font-semibold">Reportes</h2>
       </div>
-      <div class="flex justify-between">
-        <div class="text-center">
+      <div class="flex justify-between text-center">
+        <div>
           <p class="text-4xl font-bold text-blue-600"><?= $totalReportes ?></p>
           <span>Reportes por atender</span>
         </div>
-        <div class="text-center">
+        <div>
           <p class="text-4xl font-bold text-green-500"><?= $totalReportesPropios ?></p>
           <span>Reportes atendidos</span>
         </div>
       </div>
     </div>
 
-
-
     <div class="flex-1 bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
-  <div class="flex items-center gap-4 mb-4">
-    <img src="/sys_Taller_Computo/img/cantidad.png" class="w-12 h-12">
-    <h2 class="text-2xl font-semibold">Computadoras</h2>
+      <div class="flex items-center gap-4 mb-4">
+        <img src="/sys_Taller_Computo/img/cantidad.png" class="w-12 h-12">
+        <h2 class="text-2xl font-semibold">Computadoras</h2>
+      </div>
+      <div class="flex flex-wrap justify-between text-center gap-4 mb-4">
+        <div class="flex-1">
+          <p class="text-4xl font-bold text-blue-600"><?= $totalComputadoras ?></p>
+          <span>Total computadoras</span>
+        </div>
+        <div class="flex-1">
+          <p class="text-4xl font-bold text-green-500"><?= $computadorasFuncionando ?></p>
+          <span>Funcionando</span>
+        </div>
+        <div class="flex-1">
+          <p class="text-4xl font-bold text-yellow-500"><?= $computadorasEnMantenimiento ?></p>
+          <span>No funcionando</span>
+        </div>
+        <div class="flex-1">
+          <p class="text-4xl font-bold text-red-500"><?= $computadorasFueraDeServicio ?></p>
+          <span>Sin servicio</span>
+        </div>
+      </div>
+      <a href="computadorasTecnico.php" class="mt-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-center transition">Ver computadoras</a>
+    </div>
   </div>
-  
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center mb-4">
-    <div>
-      <p class="text-4xl font-bold text-blue-600"><?= $totalComputadoras ?></p>
-      <span class="block mt-1">Total computadoras</span>
-    </div>
-    <div>
-      <p class="text-4xl font-bold text-green-500"><?= $computadorasFuncionando ?></p>
-      <span class="block mt-1">Funcionando</span>
-    </div>
-    <div>
-      <p class="text-4xl font-bold text-yellow-500"><?= $computadorasEnMantenimiento ?></p>
-      <span class="block mt-1">No Funcionando</span>
-    </div>
-    <div>
-      <p class="text-4xl font-bold text-red-500 text-center"><?= $computadorasFueraDeServicio ?></p>
-      <span class="block mt-1">Sin servicio</span>
-    </div>
-  </div>
-  
-  <a href="computadorasTecnico.php" class="mt-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-center transition">
-    Ver computadoras
-  </a>
-</div>
-
-  </div>
-
 
   <section class="bg-white p-6 rounded-2xl shadow">
     <h2 class="text-2xl font-bold mb-4">Reportes</h2>
@@ -199,9 +137,7 @@ $stmt = $pdo->query($sql);
             <th class="px-4 py-3">Prioridad</th>
             <th class="px-4 py-3">Código Computador</th>
             <th class="px-4 py-3">Sala</th>
-           
             <th class="px-4 py-3">Fecha Reporte</th>
-            
             <th class="px-4 py-3">Estado</th>
             <th class="px-4 py-3">Acción</th>
           </tr>
@@ -214,9 +150,8 @@ $stmt = $pdo->query($sql);
             <td class="px-4 py-3 text-center"><?= $r["tipoReporte"] ?></td>
             <td class="px-4 py-3 text-center"><?= $r["prioridad"] ?></td>
             <td class="px-4 py-3 text-center"><?= $r["codigoComputadora"] ?></td>
-              <td class="px-4 py-3 text-center"><?= $r["nombreSala"] ?></td>
+            <td class="px-4 py-3 text-center"><?= $r["nombreSala"] ?></td>
             <td class="px-4 py-3 text-center"><?= date("d/m/Y H:i", strtotime($r["fechaReporte"])) ?></td>
-          
             <td class="px-4 py-3 w-40 text-center">
               <?php if ($r["estadoReporte"] === "En proceso"): ?>
                 <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm w-full text-center">Sin asignar</span>
@@ -227,18 +162,12 @@ $stmt = $pdo->query($sql);
               <?php endif; ?>
             </td>
             <td class="px-4 py-3 w-40 text-center">
-  <?php if ($r["estadoReporte"] === "Atendido"): ?>
-    <a href="#"
-       class="p-3 bg-gray-400 font-semibold rounded-xl shadow text-white cursor-not-allowed pointer-events-none">
-       Atender
-    </a>
-  <?php else: ?>
-    <a href="atenderReporte.php?id=<?= $r["idReporte"] ?>" 
-       class="p-3 bg-green-500 hover:bg-green-600 font-semibold rounded-xl shadow text-white">
-       Atender
-    </a>
-  <?php endif; ?>
-</td>
+              <?php if ($r["estadoReporte"] === "Atendido"): ?>
+                <a href="#" class="p-3 bg-gray-400 font-semibold rounded-xl shadow text-white cursor-not-allowed pointer-events-none">Atender</a>
+              <?php else: ?>
+                <a href="atenderReporte.php?id=<?= $r["idReporte"] ?>" class="p-3 bg-green-500 hover:bg-green-600 font-semibold rounded-xl shadow text-white">Atender</a>
+              <?php endif; ?>
+            </td>
           </tr>
           <?php endforeach; ?>
         </tbody>
@@ -247,6 +176,13 @@ $stmt = $pdo->query($sql);
   </section>
 </main>
 
+<script>
+const sidebar = document.querySelector("aside");
+const toggleBtn = document.getElementById("sidebarToggle");
+toggleBtn.addEventListener("click", () => {
+  sidebar.classList.toggle("-translate-x-full");
+});
+</script>
 
 </body>
 </html>

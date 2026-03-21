@@ -17,16 +17,12 @@ if (
 
 date_default_timezone_set('America/Monterrey');
 
-
-
 $pdo->query("
     UPDATE registroTaller
     SET estado = 'Finalizado'
     WHERE estado = 'En proceso'
       AND fechaFin <= NOW()
 ");
-
-
 
 $stats = $pdo->query("
 SELECT 
@@ -50,11 +46,9 @@ FROM tallerComputo t
 $totalTalleres = (int)$stats['totalTalleres'];
 $totalTalleresLibres = (int)$stats['libres'];
 
-
 $totalReservas = (int)$pdo->query("SELECT COUNT(*) FROM registroTaller")->fetchColumn();
 $totalEnProceso = (int)$pdo->query("SELECT COUNT(*) FROM registroTaller WHERE estado = 'En proceso'")->fetchColumn();
 $totalFinalizadas = (int)$pdo->query("SELECT COUNT(*) FROM registroTaller WHERE estado = 'Finalizado'")->fetchColumn();
-
 
 $sql = "
 SELECT 
@@ -84,142 +78,137 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans">
 
+<button id="menuBtn" class="md:hidden fixed top-4 left-4 z-50 bg-blue-600 text-white p-2 rounded-lg shadow">☰</button>
 
-<aside class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg flex flex-col">
+<aside id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg flex flex-col transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-40">
   <div class="p-6 border-b border-gray-200">
     <h1 class="text-2xl font-bold text-blue-600 text-center">UPG Apartados</h1>
   </div>
-  <nav class="flex-1 mt-4">
+  <nav class="flex-1 mt-4 overflow-y-auto">
     <ul class="space-y-2">
-  <li>
-    <a href="#" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/pagina-de-inicio.png" class="w-6 h-6">
-      <span>Inicio</span>
-    </a>
-  </li>
+      <li>
+        <a href="#" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
+          <img src="/sys_Taller_Computo/img/pagina-de-inicio.png" class="w-6 h-6">
+          <span>Inicio</span>
+        </a>
+      </li>
 
-  <p class="bg-gray-50 text-left font-semibold text-gray-700 mt-3 mb-3 ml-3">Gestión</p>
-  <li>
-    <a href="usuarios.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/administrar.png" class="w-6 h-6">
-      <span>Usuarios</span>
-    </a>
-  </li>
+      <p class="bg-gray-50 text-left font-semibold text-gray-700 mt-3 mb-3 ml-3">Gestión</p>
+      <li>
+        <a href="usuarios.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
+          <img src="/sys_Taller_Computo/img/administrar.png" class="w-6 h-6">
+          <span>Usuarios</span>
+        </a>
+      </li>
 
-  <li>
-    <a href="carreras.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/libros.png" class="w-6 h-6">
-      <span>Carreras</span>
-    </a>
-  </li>
+      <li>
+        <a href="carreras.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
+          <img src="/sys_Taller_Computo/img/libros.png" class="w-6 h-6">
+          <span>Carreras</span>
+        </a>
+      </li>
 
+      <li>
+        <a href="talleresAdmin.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
+          <img src="/sys_Taller_Computo/img/virtual.png" class="w-6 h-6">
+          <span>Taller</span>
+        </a>
+      </li>
 
-  <li>
-    <a href="talleresAdmin.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/virtual.png" class="w-6 h-6">
-      <span>Taller</span>
-    </a>
-  </li>
+      <li>
+        <a href="computadoras.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
+          <img src="/sys_Taller_Computo/img/gestion-de-datos.png" class="w-6 h-6">
+          <span>Computadoras</span>
+        </a>
+      </li>
 
-  <li>
-    <a href="computadoras.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-green-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/gestion-de-datos.png" class="w-6 h-6">
-      <span>Computadoras</span>
-    </a>
-  </li>
+      <p class="bg-gray-50 text-left font-semibold text-gray-700 mt-3 mb-3 ml-3">General</p>
+      <li>
+        <a href="/sys_Taller_Computo/app/View/talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
+          <img src="/sys_Taller_Computo/img/ordenadores.png" class="w-6 h-6">
+          <span>Talleres</span>
+        </a>
+      </li>
 
-  <p class="bg-gray-50 text-left font-semibold text-gray-700 mt-3 mb-3 ml-3">General</p>
-  <li>
-    <a href="/sys_Taller_Computo/app/View/talleres.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/ordenadores.png" class="w-6 h-6">
-      <span>Talleres</span>
-    </a>
-  </li>
+      <li>
+        <a href="../docente/generarReporte.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition">
+          <img src="/sys_Taller_Computo/img/oficina.png" class="w-6 h-6">
+          <span>Generar reporte</span>
+        </a>
+      </li>
 
-  <li>
-    <a href="../docente/generarReporte.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/oficina.png" class="w-6 h-6">
-      <span>Generar reporte</span>
-    </a>
-  </li>
+      <li>
+        <a href="../docente/misReportes.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition">
+          <img src="/sys_Taller_Computo/img/misReportes.png" class="w-6 h-6">
+          <span>Mis Reportes</span>
+        </a>
+      </li>
 
+      <li>
+        <a href="perfilAdmin.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
+          <img src="/sys_Taller_Computo/img/usuario.png" class="w-6 h-6">
+          <span>Mi perfil</span>
+        </a>
+      </li>
 
-  <li>
-    <a href="../docente/misReportes.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-yellow-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/misReportes.png" class="w-6 h-6">
-      <span>Mis Reportes</span>
-    </a>
-  </li>
-
- <li>
-    <a href="perfilAdmin.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/usuario.png" class="w-6 h-6">
-      <span>Mi perfil</span>
-    </a>
-  </li>
-
-  <li>
-    <a href="/sys_Taller_Computo/public/api/logout.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-red-50 rounded-lg transition">
-      <img src="/sys_Taller_Computo/img/logout.png" class="w-6 h-6">
-      <span>Cerrar sesión</span>
-    </a>
-  </li>
-</ul>
+      <li>
+        <a href="/sys_Taller_Computo/public/api/logout.php" class="flex items-center gap-3 p-3 text-gray-700 hover:bg-red-50 rounded-lg transition">
+          <img src="/sys_Taller_Computo/img/logout.png" class="w-6 h-6">
+          <span>Cerrar sesión</span>
+        </a>
+      </li>
+    </ul>
   </nav>
 </aside>
 
-  <main class="ml-64 p-8">
-  <header class="flex justify-between items-center mb-8">
-    <h1 class="text-4xl font-bold text-blue-600">Bienvenido, <?= htmlspecialchars($_SESSION["nombre"]) ?></h1>
+<main class="md:ml-64 p-4 md:p-8">
+  <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+    <h1 class="text-2xl md:text-4xl font-bold text-blue-600">Bienvenido, <?= htmlspecialchars($_SESSION["nombre"]) ?></h1>
   </header>
 
-
-  <div class="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0 mb-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
     
-    <div class="flex-1 bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+    <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
       <div class="flex items-center gap-4 mb-4">
         <img src="/sys_Taller_Computo/img/ordenadores.png" class="w-12 h-12">
-        <h2 class="text-2xl font-semibold">Salas de Cómputo</h2>
+        <h2 class="text-xl md:text-2xl font-semibold">Salas de Cómputo</h2>
       </div>
       <div class="flex justify-between">
         <div class="text-center">
-          <p class="text-4xl font-bold text-blue-600"><?= $totalTalleres ?></p>
+          <p class="text-3xl md:text-4xl font-bold text-blue-600"><?= $totalTalleres ?></p>
           <span>Total</span>
         </div>
         <div class="text-center">
-          <p class="text-4xl font-bold text-green-500"><?= $totalTalleresLibres ?></p>
+          <p class="text-3xl md:text-4xl font-bold text-green-500"><?= $totalTalleresLibres ?></p>
           <span>Libres</span>
         </div>
-        
       </div>
       <div class="flex justify-center">
-          <a href="../talleres.php" class="mt-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-center transition p-3">Ver talleres</a>
-     </div>
-        
+        <a href="../talleres.php" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-center transition p-3 w-full md:w-auto">Ver talleres</a>
+      </div>
     </div>
 
-    <div class="flex-1 bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+    <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
       <div class="flex items-center gap-4 mb-4">
         <img src="/sys_Taller_Computo/img/ordenador-personal.png" class="w-12 h-12">
-        <h2 class="text-2xl font-semibold">Reservas</h2>
+        <h2 class="text-xl md:text-2xl font-semibold">Reservas</h2>
       </div>
       <div class="flex justify-between">
         <div class="text-center">
-          <p class="text-4xl font-bold text-yellow-500"><?= $totalEnProceso ?></p>
+          <p class="text-3xl md:text-4xl font-bold text-yellow-500"><?= $totalEnProceso ?></p>
           <span>En proceso</span>
         </div>
         <div class="text-center">
-          <p class="text-4xl font-bold text-blue-500"><?= $totalFinalizadas ?></p>
+          <p class="text-3xl md:text-4xl font-bold text-blue-500"><?= $totalFinalizadas ?></p>
           <span>Finalizadas</span>
         </div>
       </div>
     </div>
 
-    <div class="flex-1 bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
+    <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
       <div class="flex items-center gap-4 mb-4">
         <img src="/sys_Taller_Computo/img/usuario2.png" class="w-12 h-12">
-        <h2 class="text-2xl font-semibold">Usuarios</h2>
-        
+        <h2 class="text-xl md:text-2xl font-semibold">Usuarios</h2>
       </div>
       <p class="font-medium text-gray-500 mb-4">Mantén el control completo del sistema.</p>
       <a href="usuarios.php" class="mt-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-center transition">Ver usuarios</a>
@@ -227,11 +216,10 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
   </div>
 
-
-  <section class="bg-white p-6 rounded-2xl shadow">
-    <h2 class="text-2xl font-bold mb-4">Reservas</h2>
+  <section class="bg-white p-4 md:p-6 rounded-2xl shadow">
+    <h2 class="text-xl md:text-2xl font-bold mb-4">Reservas</h2>
     <div class="overflow-x-auto max-h-72">
-      <table class="min-w-full divide-y divide-gray-200 max-h-3 overflow-auto">
+      <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
           <tr>
             <th class="px-4 py-3">ID</th>
@@ -254,11 +242,11 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             <td class="px-4 py-3 text-center"><?= date("d/m/Y H:i", strtotime($u["fechaFin"])) ?></td>
             <td class="px-4 py-3 text-center">
               <?php if ($u["estado"] === "En proceso"): ?>
-                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm text-center">En proceso</span>
+                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm">En proceso</span>
               <?php elseif ($u["estado"] === "Finalizado"): ?>
-                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm text-center">Finalizado</span>
+                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">Finalizado</span>
               <?php elseif ($u["estado"] === "Cancelado"): ?>
-                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm text-center">Cancelado</span>
+                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm">Cancelado</span>
               <?php endif; ?>
             </td>
           </tr>
@@ -269,6 +257,13 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
   </section>
 </main>
 
+<script>
+const btn = document.getElementById('menuBtn');
+const sidebar = document.getElementById('sidebar');
+btn.addEventListener('click', () => {
+  sidebar.classList.toggle('-translate-x-full');
+});
+</script>
 
 </body>
 </html>

@@ -10,7 +10,6 @@ require_once __DIR__ . "/../../db/Database.php";
 $pdo = Database::connect();
 $mensaje = "";
 
-
 if (isset($_SESSION["idDocente"])) {
 
     $rol = $_SESSION["rol"];
@@ -25,12 +24,16 @@ if (isset($_SESSION["idDocente"])) {
         exit;
     }
 
-     if ($rol == 3) {
+    if ($rol == 3) {
         header("Location: /sys_Taller_Computo/app/View/tecnico/dashTecnico.php");
         exit;
     }
-}
 
+    if ($rol == 4) {
+        header("Location: /sys_Taller_Computo/app/View/alumno/dashAlumno.php");
+        exit;
+    }
+}
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -39,11 +42,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($correo === "" || $password === "") {
 
-        $mensaje = "<p class='text-orange-500'>Completa correo y contraseña.</p>";
+        $mensaje = "<p class='text-orange-500 text-sm text-center'>Completa correo y contraseña.</p>";
 
     } elseif (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
 
-        $mensaje = "<p class='text-orange-500'>Correo no válido.</p>";
+        $mensaje = "<p class='text-orange-500 text-sm text-center'>Correo no válido.</p>";
 
     } else {
 
@@ -75,14 +78,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 exit;
             }
 
-            if($_SESSION["rol"] == 3){
-                 header("Location: /sys_Taller_Computo/app/View/tecnico/dashTecnico.php");
+            if ($_SESSION["rol"] == 3) {
+                header("Location: /sys_Taller_Computo/app/View/tecnico/dashTecnico.php");
                 exit;
+            }
+
+            if ($_SESSION["rol"] == 4) {
+                header("Location: /sys_Taller_Computo/app/View/alumno/dashAlumno.php");
             }
 
         } else {
 
-            $mensaje = "<p class='text-red-600 bg-red-500 p-2 rounded text-center'>Correo o contraseña incorrectos.</p>";
+            $mensaje = "<p class='text-red-600 bg-red-100 p-2 rounded text-center text-sm'>Correo o contraseña incorrectos.</p>";
         }
     }
 }
@@ -97,54 +104,47 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <title>Login</title>
 
-<link rel="stylesheet" href="/sys_Taller_Computo/public/css/login-output.css">
+<script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 
-<body>
+<body class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
 
-        <div class="login-container">
+<div class="w-full max-w-4xl bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row">
 
-        <form class="login-form" action="" method="POST" id="form-container">
+    <form class="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center" action="" method="POST" id="form-container">
 
-        <div class="left-panel" id="left-panel">
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-center md:text-left">Iniciar Sesión</h2>
 
-            <h2 class="title" id="blackText">Iniciar Sesión</h2>
-
-            <p>Inserta tus credenciales para ingresar al sistema.</p>
+        <p class="text-gray-500 mb-6 text-center md:text-left">Inserta tus credenciales para ingresar al sistema.</p>
 
         <?php if ($mensaje !== "") echo $mensaje; ?>
 
-        <input type="email" name="email" placeholder="Correo" class="input-field" required>
+        <input type="email" name="email" placeholder="Correo" class="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
 
-        <input type="password" name="password" placeholder="Contraseña" class="input-field" required>
+        <input type="password" name="password" placeholder="Contraseña" class="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
 
-        <p>
+        <p class="text-sm text-center md:text-left mb-4">
             ¿Olvidaste tu contraseña?
-        <span style="color:#2987FF;">
-                <a href="/sys_Taller_Computo/public/recuperar_password.php">Restablecer</a>
-        </span>
+            <span class="text-blue-600">
+                Contacta a tu Administrador
+            </span>
         </p>
 
-            <button type="submit" class="btn-submit">Entrar</button>
+        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
+            Entrar
+        </button>
 
-        </div>
+    </form>
 
-        <div class="right-panel">
-
-            <h2 class="title" id="whiteText">¿No estás registrado?</h2>
-
-        <p id="white-text">
-                Contacta a tu institucion o administrador para obtener permisos.
+    <div class="w-full md:w-1/2 bg-blue-600 text-white p-6 md:p-10 flex flex-col justify-center items-center text-center">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">¿No estás registrado?</h2>
+        <p class="text-sm md:text-base">
+            Contacta a tu institucion o administrador para obtener permisos.
         </p>
+    </div>
 
-   
+</div>
 
-        </div>
-
-        </form>
-
-        </div>
-
-        </body>
+</body>
 </html>

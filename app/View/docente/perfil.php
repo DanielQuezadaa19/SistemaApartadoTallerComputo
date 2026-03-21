@@ -14,8 +14,6 @@ if (
     exit;
 }
 
-
-
 $idDocente     = $_SESSION["idDocente"];
 $nombreDocente = $_SESSION["nombre"];
 $apellidoPat   = $_SESSION["apellidoPaterno"];
@@ -27,9 +25,7 @@ $queryCarrera = $pdo->prepare("SELECT nombreCarrera FROM carrera WHERE idCarrera
 $queryCarrera->execute(["$idCarrera"]);
 $carreraUsuario = $queryCarrera->fetch(PDO::FETCH_ASSOC);
 
-
 $inicialesUsuario = substr($nombreDocente, 0, 1) . substr($apellidoPat, 0, 1);
-
 
 $queryReservas = $pdo->prepare("
     SELECT COUNT(*) AS total 
@@ -38,7 +34,6 @@ $queryReservas = $pdo->prepare("
 ");
 $queryReservas->execute([$idDocente]);
 $reservas = $queryReservas->fetch(PDO::FETCH_ASSOC);
-
 
 $sql = "
 SELECT 
@@ -74,50 +69,43 @@ $usuarioReservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <header class="w-full h-36 bg-blue-600"></header>
 
-<main class="w-3/4 mx-auto px-6 -mt-16">
+<main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16">
 
-
-    <section class="bg-white rounded-xl shadow p-6 flex items-center gap-6">
-        <div class="rounded-full bg-blue-400 h-32 w-32 shadow-lg flex justify-center items-center">
+    <section class="bg-white rounded-xl shadow p-6 flex flex-col sm:flex-row items-center sm:items-start gap-6">
+        <div class="rounded-full bg-blue-400 h-32 w-32 shadow-lg flex justify-center items-center flex-shrink-0">
             <p class="font-bold text-blue-800 text-5xl">
                 <?= $inicialesUsuario ?>
             </p>
         </div>
 
-        <div class="flex flex-col">
-            <h1 class="text-3xl font-bold text-gray-800">
+        <div class="flex flex-col text-center sm:text-left">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">
                 <?= $nombreDocente . ' ' . $apellidoPat . ' ' . $apellidoMat ?>
             </h1>
 
-             <div class="flex items-center gap-2 text-gray-600 mt-2">
+            <div class="flex justify-center sm:justify-start items-center gap-2 text-gray-600 mt-2 flex-wrap">
                 <img src="/sys_Taller_Computo/img/tarjeta-de-identificacion.png" class="w-5 h-5">
                 <span><?= $idDocente ?></span>
             </div>
 
-            <div class="flex items-center gap-2 text-gray-600 mt-2">
+            <div class="flex justify-center sm:justify-start items-center gap-2 text-gray-600 mt-2 flex-wrap">
                 <img src="/sys_Taller_Computo/img/gmail.png" class="w-5 h-5">
                 <span><?= $gmailUsuario ?></span>
             </div>
 
-            <div class="flex items-center gap-2 text-gray-600 mt-2">
+            <div class="flex justify-center sm:justify-start items-center gap-2 text-gray-600 mt-2 flex-wrap">
                 <img src="/sys_Taller_Computo/img/sombrero-de-graduacion.png" class="w-5 h-5">
                 <span><?= $carreraUsuario["nombreCarrera"] ?></span>
             </div>
-
-
         </div>
     </section>
 
-
     <section class="mt-8 flex flex-col lg:flex-row gap-6">
 
-      
         <div class="flex flex-col gap-6 w-full lg:w-1/4">
 
             <div class="bg-white rounded-xl shadow p-6">
                 <h2 class="text-lg font-semibold mb-4">Resumen</h2>
-
-
 
                 <div class="bg-blue-50 p-4 rounded-lg text-center">
                     <p class="text-3xl font-bold text-blue-600">
@@ -127,7 +115,6 @@ $usuarioReservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
 
-       
             <div class="bg-white rounded-xl shadow p-6">
                 <h2 class="text-lg font-semibold mb-4">Acciones</h2>
 
@@ -145,16 +132,14 @@ $usuarioReservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
 
-   
         <div class="flex flex-col gap-6 w-full flex-1">
 
-          
             <div class="bg-white rounded-xl shadow p-6">
                 <h2 class="text-2xl font-bold mb-4">Mis reservas</h2>
 
-                <div class="overflow-y-auto max-h-72">
-                    <table class="min-w-full divide-y divide-gray-200 max-h-3 overflow-auto">
-                        <thead class="border-b text-gray-500">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="border-b text-gray-500 text-sm sm:text-base">
                             <tr>
                                 <th class="px-4 py-2 text-left">ID</th>
                                 <th class="px-4 py-2 text-left">Sala</th>
@@ -162,11 +147,11 @@ $usuarioReservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <th class="px-4 py-2 text-left">Correo</th>
                                 <th class="px-4 py-2 text-left">Inicio</th>
                                 <th class="px-4 py-2 text-left">Fin</th>
-                                <th class="px-4 py-2 text-left w-48">Estado</th>
+                                <th class="px-4 py-2 text-left w-36">Estado</th>
                             </tr>
                         </thead>
 
-                        <tbody class="divide-y">
+                        <tbody class="divide-y text-sm sm:text-base">
                             <?php if (count($usuarioReservas) > 0): ?>
                                 <?php foreach ($usuarioReservas as $u): ?>
                                     <tr>
@@ -176,13 +161,13 @@ $usuarioReservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td class="px-4 py-3"><?= $u["correo"] ?></td>
                                         <td class="px-4 py-3"><?= date("d/m/Y H:i", strtotime($u["fechaInicio"])) ?></td>
                                         <td class="px-4 py-3"><?= date("d/m/Y H:i", strtotime($u["fechaFin"])) ?></td>
-                                        <td class="px-4 py-3 w-48">
+                                        <td class="px-4 py-3 w-36">
                                             <?php if ($u["estado"] === "En proceso"): ?>
-                                                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs">En proceso</span>
+                                                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs sm:text-sm">En proceso</span>
                                             <?php elseif ($u["estado"] === "Finalizado"): ?>
-                                                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs">Finalizado</span>
+                                                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs sm:text-sm">Finalizado</span>
                                             <?php elseif ($u["estado"] === "Cancelado"): ?>
-                                                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs">Cancelado</span>
+                                                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs sm:text-sm">Cancelado</span>
                                             <?php endif; ?>
                                         </td>
                                     </tr>

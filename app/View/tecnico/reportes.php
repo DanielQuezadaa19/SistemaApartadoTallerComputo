@@ -86,7 +86,7 @@ $totReportes = $queryReportes->fetch(PDO::FETCH_ASSOC);
             <th class="px-4 py-3">Descripción</th>
             <th class="px-4 py-3">Tipo</th>
             <th class="px-4 py-3">Prioridad</th>
-            <th class="px-4 py-3">Docente</th>
+            <th class="px-4 py-3">Docente/Alumno</th>
             <th class="px-4 py-3">Estado</th>
             <th class="px-4 py-3">Fecha Reporte</th>
            

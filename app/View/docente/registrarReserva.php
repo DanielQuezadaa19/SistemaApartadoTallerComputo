@@ -16,8 +16,6 @@ if (
     exit;
 }
 
-
-
 $stmtSalas = $pdo->query("
     SELECT t.idTaller, t.nombreSala, t.cantidadComputadoras,
     CASE 
@@ -93,38 +91,55 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nueva Reserva</title>
-<link rel="stylesheet" href="/sys_Taller_Computo/public/css/nuevaReserva-output.css">
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-4">
 
-<h1>Hacer Nueva Reserva</h1>
+<h1 class="text-3xl font-bold text-blue-600 mb-6 text-center">Hacer Nueva Reserva</h1>
 
 <?php if ($mensaje): ?>
-<div class="mensaje <?= $error ? 'error' : 'success' ?>">
+<div class="w-full max-w-xl mb-6 p-4 rounded <?= $error ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700' ?>">
     <?= htmlspecialchars($mensaje) ?>
 </div>
 <?php endif; ?>
 
-<form method="POST">
-    <label for="idTaller">Selecciona Sala:</label>
-    <select name="idTaller" required>
-        <option value="">Elige una sala</option>
-        <?php foreach ($salas as $sala): ?>
-            <option value="<?= $sala['idTaller'] ?>" <?= $sala['estado'] === 'Apartado' ? '' : '' ?>>
-                <?= htmlspecialchars($sala['nombreSala']) ?>
-                (<?= $sala['cantidadComputadoras'] ?> computadoras)
-                - <?= $sala['estado'] ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
+<form method="POST" class="w-full max-w-xl bg-white p-6 rounded-2xl shadow-md flex flex-col gap-6">
 
-    <label>Fecha y hora de inicio:</label>
-    <input type="datetime-local" name="fechaInicio" min="<?= date('Y-m-d\TH:i') ?>" required>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-    <label>Fecha y hora de fin:</label>
-    <input type="datetime-local" name="fechaFin" min="<?= date('Y-m-d\TH:i') ?>" required>
+        <div class="flex flex-col">
+            <label class="font-semibold mb-1">Selecciona Sala:</label>
+            <select name="idTaller" required
+                    class="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <option value="">Elige una sala</option>
+                <?php foreach ($salas as $sala): ?>
+                    <option value="<?= $sala['idTaller'] ?>">
+                        <?= htmlspecialchars($sala['nombreSala']) ?> (<?= $sala['cantidadComputadoras'] ?> computadoras) - <?= $sala['estado'] ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
 
-    <button type="submit">Reservar</button>
+        <div class="flex flex-col">
+            <label class="font-semibold mb-1">Fecha y hora de inicio:</label>
+            <input type="datetime-local" name="fechaInicio" min="<?= date('Y-m-d\TH:i') ?>" required
+                   class="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+
+        <div class="flex flex-col">
+            <label class="font-semibold mb-1">Fecha y hora de fin:</label>
+            <input type="datetime-local" name="fechaFin" min="<?= date('Y-m-d\TH:i') ?>" required
+                   class="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+
+    </div>
+
+    <button type="submit"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-md transition">
+        Reservar
+    </button>
+
 </form>
 
 </body>
